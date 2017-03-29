@@ -22,6 +22,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="242.0" layoutY="249.0" mnemonicParsing="false" text="Add Stop Point" />
+      <Button layoutX="242.0" layoutY="249.0" mnemonicParsing="false" onAction="#handleEditStop" text="Add Stop Point" />
    </children>
 </AnchorPane>

@@ -96,12 +96,15 @@ public class RouteEditController {
         dialogStage.close();
     }
 
+    
     /**
      * Validates the user input in the text fields.
      * 
      * @return true if the input is valid
      */
     private boolean isInputValid() {
+
+    	
         String errorMessage = "";
         /*
         if (modelField.getText() == null || modelField.getText().length() == 0) {
@@ -151,5 +154,7 @@ public class RouteEditController {
 
             return false;
         }
+        
     }
+    
 }
