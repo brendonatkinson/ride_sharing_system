@@ -17,6 +17,7 @@ public class RouteEditController {
 
     private Stage dialogStage;
     private boolean okClicked = false;
+	@SuppressWarnings("unused")
 	private Route route;
 
     /**
