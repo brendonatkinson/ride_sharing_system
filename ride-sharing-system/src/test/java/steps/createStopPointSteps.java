@@ -1,12 +1,12 @@
 package steps;
 
 import cucumber.api.java.en.Given;
-import src.MainApp;
+//import src.MainApp;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import src.model.StopPoint;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 public class createStopPointSteps {
 	

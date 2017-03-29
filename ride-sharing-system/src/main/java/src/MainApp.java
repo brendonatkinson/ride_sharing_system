@@ -1,10 +1,6 @@
 package src;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import src.model.Car;
 import src.model.Profile;
 import src.model.Route;
@@ -16,6 +12,8 @@ import controllers.RouteEditController;
 import controllers.TripController;
 import controllers.UserOverviewController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -28,10 +26,11 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     private Stage primaryStage;
+    private Stage dialogStage;
     private BorderPane rootLayout;
     private Accordion layoutAccord = new Accordion();
     private Profile currUser;
-    private static Set<StopPoint> stopPointContainer;
+    private static ObservableList<StopPoint> stopPointContainer;
    
     @Override
     public void start(Stage primaryStage) {
@@ -53,7 +52,7 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Sample Data, can remove this
-    	stopPointContainer = new HashSet<StopPoint>();
+    	stopPointContainer = FXCollections.observableArrayList();
     	User testUser = new User("Bruno", false);
     	currUser = new Profile(testUser);
     	currUser.getCurrUser().addCar(new Car("Sedan", "Honda", "Blue", "FLZ111", 0, 0));
@@ -78,7 +77,7 @@ public class MainApp extends Application {
 		return stopPointContainer.add(newStopPoint);
 	}
     
-    public static Collection<StopPoint> getStopPoints() {
+    public static ObservableList<StopPoint> getStopPoints() {
 		return stopPointContainer;
 	}
 
@@ -212,7 +211,7 @@ public class MainApp extends Application {
             AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
-            Stage dialogStage = new Stage();
+            dialogStage = new Stage();
             dialogStage.setTitle("Edit Route");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
@@ -233,4 +232,5 @@ public class MainApp extends Application {
             return false;
         }
     }
+	 
 }
