@@ -3,6 +3,7 @@ package src;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import src.model.Car;
 import src.model.Profile;
@@ -30,7 +31,7 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private Accordion layoutAccord = new Accordion();
     private Profile currUser;
-    private Collection<StopPoint> stopPointContainer;
+    private static Set<StopPoint> stopPointContainer;
    
     @Override
     public void start(Stage primaryStage) {
@@ -73,11 +74,11 @@ public class MainApp extends Application {
     	
     }
 
-    public Boolean addStopPoint(StopPoint newStopPoint) {
+    public static Boolean addStopPoint(StopPoint newStopPoint) {
 		return stopPointContainer.add(newStopPoint);
 	}
     
-    public Collection<StopPoint> getStopPoints() {
+    public static Collection<StopPoint> getStopPoints() {
 		return stopPointContainer;
 	}
 

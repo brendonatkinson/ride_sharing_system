@@ -2,16 +2,23 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import src.model.Route;
+import src.model.StopPoint;
 
 
 public class RouteEditController {
 
     @FXML
     private TextField nameField;
+    @FXML
+    private TableView<StopPoint> stopTable;
+    @FXML
+    private TableColumn<StopPoint, String> stopColumn;
 
 
 
@@ -26,6 +33,7 @@ public class RouteEditController {
      */
     @FXML
     private void initialize() {
+    	stopColumn.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
     }
 
     /**
@@ -44,6 +52,7 @@ public class RouteEditController {
      */
     public void setRoute(Route route) {
         this.route = route;
+        stopTable.setItems(route.getStops());
 
         nameField.setText(route.getNameProperty().get());
         /**typeField.setText(car.getCarType().toString());

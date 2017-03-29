@@ -1,5 +1,8 @@
 package src.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class StopPoint {
 	
 	private Integer number;
@@ -12,10 +15,16 @@ public class StopPoint {
 	/**
 	 * @return the number
 	 */
+	public StringProperty getAddressProperty() {
+		return new SimpleStringProperty(this.number + " " + this.street);
+	}
+	
+	/**
+	 * @return the number
+	 */
 	public String getAddress() {
 		return (this.number + " " + this.street);
 	}
-	
 	
 	@Override
 	public int hashCode() {
