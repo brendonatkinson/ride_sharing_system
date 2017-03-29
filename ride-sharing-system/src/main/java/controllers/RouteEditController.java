@@ -1,11 +1,17 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import src.model.Route;
 import src.model.StopPoint;
@@ -24,7 +30,6 @@ public class RouteEditController {
 
     private Stage dialogStage;
     private boolean okClicked = false;
-	@SuppressWarnings("unused")
 	private Route route;
 
     /**
@@ -157,4 +162,25 @@ public class RouteEditController {
         
     }
     
+    @FXML
+    private void handleAddStop() {
+    	TextInputDialog dialog = new TextInputDialog("");
+		dialog.setTitle("Add Stop");
+		dialog.setHeaderText("Please Enter a Stop Point");
+		dialog.setContentText("Please Enter a Stop Point:");
+
+		Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent()){
+			List<String> items = new ArrayList<String>(Arrays.asList(result.get().split(" ")));
+			Integer number = Integer.parseInt(items.remove(0));
+			String road =  String.join(" ", items);
+			route.add(new StopPoint(number, road));
+		}
+    }
+    
 }
+
+		
+
+    

@@ -184,6 +184,7 @@ public class MainApp extends Application {
             controller.setDialogStage(dialogStage);
             controller.setCar(car);
 
+            
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
 
