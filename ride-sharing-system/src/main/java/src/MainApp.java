@@ -227,11 +227,16 @@ public class MainApp extends Application {
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
 
-            return controller.isOkClicked();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
+
+
+	public static void removeStopPoint(StopPoint stopToDel) {
+		stopPointContainer.remove(stopToDel);
+	}
 	 
 }

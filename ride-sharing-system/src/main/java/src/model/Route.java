@@ -38,5 +38,16 @@ public class Route {
 	public StringProperty getNameProperty() {
 		return name;
 	}
+
+	public void removeStop(StopPoint stopToDel) {
+		this.stopPoints.remove(stopToDel);
+		MainApp.removeStopPoint(stopToDel);
+		
+	}
+
+	public void setName(String text) {
+		this.name.set(text);
+		
+	}
 	
 }
