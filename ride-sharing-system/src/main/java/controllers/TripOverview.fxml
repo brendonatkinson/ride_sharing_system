@@ -12,15 +12,17 @@
       <Pane prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Trips" />
-            <TableView layoutX="14.0" layoutY="31.0" prefHeight="216.0" prefWidth="558.0">
+            <TableView fx:id="tripTable" layoutX="14.0" layoutY="31.0" prefHeight="216.0" prefWidth="558.0">
               <columns>
-                <TableColumn prefWidth="56.0" text="Shared" />
-                <TableColumn prefWidth="94.0" text="Direction" />
-                  <TableColumn prefWidth="128.0" text="Car" />
-                  <TableColumn prefWidth="69.0" text="Recurring" />
-                  <TableColumn prefWidth="110.0" text="Recurring Days" />
-                  <TableColumn prefWidth="100.0" text="Expiry Date" />
+                <TableColumn fx:id="sharedColumn" prefWidth="56.0" text="Shared" />
+                  <TableColumn fx:id="routeNameColumn" prefWidth="100.0" text="Route Name" />
+                <TableColumn fx:id="directionColumn" prefWidth="94.0" text="Direction" />
+                  <TableColumn fx:id="carColumn" prefWidth="128.0" text="Car" />
+                  <TableColumn fx:id="recurringColumn" prefWidth="97.0" text="Recurring" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
             <Button layoutX="14.0" layoutY="258.0" mnemonicParsing="false" text="New Trip" />
             <Button layoutX="84.0" layoutY="258.0" mnemonicParsing="false" text="Edit Trip" />

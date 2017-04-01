@@ -6,6 +6,7 @@ import src.model.Profile;
 import src.model.Route;
 import src.model.User;
 import src.model.StopPoint;
+import src.model.Trip;
 import controllers.CarEditController;
 import controllers.RouteController;
 import controllers.RouteEditController;
@@ -55,6 +56,7 @@ public class MainApp extends Application {
     	stopPointContainer = FXCollections.observableArrayList();
     	User testUser = new User("Bruno", false);
     	currUser = new Profile(testUser);
+    	Car honda = new Car("Sedan", "Honda", "Blue", "FLZ111", 0, 0);
     	currUser.getCurrUser().addCar(new Car("Sedan", "Honda", "Blue", "FLZ111", 0, 0));
     	currUser.getCurrUser().addCar(new Car("PeopleMover", "Maserati", "Blue", "ABC123", 0, 0));
     	currUser.getCurrUser().addCar(new Car("Van", "Mercedes", "Blue", "BYM922", 0, 0));
@@ -66,6 +68,8 @@ public class MainApp extends Application {
     	routed.add(stop2);
     	routed.add(stop3);
     	currUser.addRoute(routed);
+    	Trip newTrip = new Trip(testUser, honda, routed, false, false);
+    	currUser.addTrip(newTrip);
     	
     	//Try to read in saved user profile
     	//else create blank currUser = new User("", false);

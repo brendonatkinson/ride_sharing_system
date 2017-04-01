@@ -7,6 +7,11 @@ import javafx.beans.property.StringProperty;
 
 public class Car
 {
+	@Override
+	public String toString() {
+		return  model.get() + " " + licensePlate.get();
+	}
+
 	private StringProperty carType;
 	private StringProperty model;
 	private StringProperty carColour;

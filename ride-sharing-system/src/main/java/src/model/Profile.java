@@ -16,11 +16,13 @@ public class Profile implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private User currUser;
 	private ObservableList<Route> observableRoutes;
+	private ObservableList<Trip> observableTrips;
 	private Set<StopPoint> stopContainer;
 	
 	public Profile(User newUser){
 		currUser = newUser;
-		observableRoutes= FXCollections.observableArrayList();
+		observableRoutes = FXCollections.observableArrayList();
+		observableTrips = FXCollections.observableArrayList();
 		stopContainer = new HashSet<StopPoint>();
 	}
 	
@@ -30,6 +32,10 @@ public class Profile implements Serializable {
 
 	public Boolean addRoute(Route userRoute) {
 		return this.observableRoutes.add(userRoute);
+	}
+	
+	public void removeRoute(Route routeToDel) {
+		this.observableRoutes.remove(routeToDel);
 	}
 
 	public Iterator<StopPoint> getStopContainer() {
@@ -43,12 +49,20 @@ public class Profile implements Serializable {
 	public User getCurrUser() {
 		return currUser;
 	}
+	
 	public void setCurrUser(User currUser) {
 		this.currUser = currUser;
 	}
 
-	public void removeRoute(Route routeToDel) {
-		this.observableRoutes.remove(routeToDel);
+	public ObservableList<Trip> getTrips() {
+		return observableTrips;
 	}
 
+	public void addTrip(Trip newTrip) {
+		 this.observableTrips.add(newTrip);
+	}
+	
+	public void removeTrip(Trip tripToDel) {
+		this.observableTrips.remove(tripToDel);
+	}
 }
