@@ -3,32 +3,52 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import src.MainApp;
 import src.model.Route;
 import src.model.StopPoint;
+import src.model.Trip;
 
 
 public class TripEditController {
 
 	@FXML
-	private TextField nameField;
+	private TableView<Map.Entry<StopPoint,String>> stopTable;
 	@FXML
-	private TableView<StopPoint> stopTable;
+	private TableColumn<Map.Entry<StopPoint,String>, String> stopColumn;
 	@FXML
-	private TableColumn<StopPoint, String> stopColumn;
+	private TableColumn<Map.Entry<StopPoint,String>, String> timeColumn;
+	@FXML
+	private TextField recurrDays;
+	@FXML
+	private CheckBox sharedCheck;
+	@FXML
+	private CheckBox recurringCheck;
+	@FXML
+	private ChoiceBox<Route> selectedRoute;
+	@FXML
+	private ChoiceBox<String> carToUse;
+	@FXML
+	private DatePicker expiryDate;
+	
 	private Stage dialogStage;
 	private Route route;
 	private MainApp mainApp;
+	private Trip tripToEdit;
 
 	/**
 	 * Initializes the controller class. This method is automatically called
@@ -36,7 +56,13 @@ public class TripEditController {
 	 */
 	@FXML
 	private void initialize() {
-		stopColumn.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
+		//stopColumn.setCellValueFactory(cellData -> cellData.getValue().getStop().getAddressProperty());
+		//timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
+		//selectedRoute.setItems(mainApp.getCurrUserProfile().getUserRoutes());
+		//if (tripToEdit.getRecurrency()){
+		//	recurrDays.setText(tripToEdit.getRecurrDays());
+		//}
+		
 	}
 
 	/**
@@ -53,11 +79,11 @@ public class TripEditController {
 	 * 
 	 * @param person
 	 */
-	public void setRoute(Route route) {
-		this.route = route;
-		stopTable.setItems(route.getStops());
+	public void setTrip(Trip trip) {
+		//this.tripToEdit = trip;
+		//stopTable.setItems((ObservableList<Tuple>) trip.getStops());
 
-		nameField.setText(route.getNameProperty().get());
+		//nameField.setText(route.getNameProperty().get());
 	}
 
 	/**
@@ -65,7 +91,7 @@ public class TripEditController {
 	 */
 	@FXML
 	private void handleOk() {
-		route.setName(nameField.getText());
+		//route.setName(nameField.getText());
 		dialogStage.close();
 	}
 
@@ -123,7 +149,7 @@ public class TripEditController {
 	/**
 	 * Called when the user clicks on the delete button.
 	 */
-	@FXML
+	/*@FXML
 	private void handleDeleteStop() {
 		int selectedIndex = stopTable.getSelectionModel().getSelectedIndex();
 
@@ -140,7 +166,7 @@ public class TripEditController {
 
 			alert.showAndWait();
 		}
-	}
+	}*/
 }
 
 

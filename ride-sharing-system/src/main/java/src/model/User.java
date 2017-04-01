@@ -17,14 +17,6 @@ public class User {
 		name = new SimpleStringProperty(uname);
 		role = new SimpleBooleanProperty(urole);
 	}
-	
-
-	/**
-	 * @return the role
-	 */
-	public Boolean isDriver() {
-		return role.get();
-	}
 
 
 	/**

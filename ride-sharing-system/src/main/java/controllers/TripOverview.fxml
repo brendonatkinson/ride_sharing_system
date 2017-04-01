@@ -24,8 +24,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button layoutX="14.0" layoutY="258.0" mnemonicParsing="false" text="New Trip" />
-            <Button layoutX="84.0" layoutY="258.0" mnemonicParsing="false" text="Edit Trip" />
+            <Button layoutX="14.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleNewTrip" text="New Trip" />
+            <Button layoutX="84.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleEditTrip" text="Edit Trip" />
             <Button layoutX="152.0" layoutY="258.0" mnemonicParsing="false" text="Delete Trip" />
          </children>
       </Pane>

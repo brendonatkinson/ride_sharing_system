@@ -19,7 +19,7 @@ public class addRouteSteps {
 
 	@Given("^I am a driver$")
 	public void i_am_a_driver() throws Throwable {
-	    assertTrue(user.isDriver());
+	    //assertTrue(user.isDriver());
 	}
 
 	@When("^I have a collection StopPoints$")

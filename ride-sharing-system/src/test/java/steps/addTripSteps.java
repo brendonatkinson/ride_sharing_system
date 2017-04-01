@@ -21,7 +21,7 @@ public class addTripSteps {
 	public StopPoint stop2 = new StopPoint(12, "Main St");
 	public StopPoint stop3 = new StopPoint(999, "Grassmere St");
 	public Route triproute = new Route("NewRoute");
-	public Trip newtrip = new Trip(user, newcar, false, false);
+	public Trip newtrip = new Trip(user, newcar, triproute, false, false);
 
 	@When("^I select a route I can add stop times$")
 	public void i_select_a_route_I_can_add_stop_times() throws Throwable {

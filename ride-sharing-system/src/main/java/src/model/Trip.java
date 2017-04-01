@@ -1,8 +1,8 @@
 package src.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -11,11 +11,11 @@ import javafx.beans.property.StringProperty;
 
 public class Trip {
 	
-	private Collection<Tuple> stopTimes;
+	private Map<StopPoint,String> stopTimes;
 	private Route route;
 	private BooleanProperty tripDirection; //True -> Uni, False <- Uni
 	private BooleanProperty recurrency;
-	private String recurrDays;
+	private StringProperty recurrDays;
 	private Date expiryDate;
 	private User creatingUser;
 	private Car rideToBeUsed;
@@ -29,9 +29,9 @@ public class Trip {
 		this.tripDirection = new SimpleBooleanProperty(direction);
 		this.recurrency = new SimpleBooleanProperty(recurr);
 		this.tripShared = new SimpleBooleanProperty(false);
-		this.recurrDays = days;
+		this.recurrDays = new SimpleStringProperty(days);
 		this.expiryDate = expiry;
-		this.stopTimes = new ArrayList<Tuple>();
+		this.stopTimes = new HashMap<StopPoint, String>();
 	}
 	
 	public Trip(User creator, Car wheels, Route routeToFollow, Boolean direction, Boolean recurr){
@@ -40,15 +40,15 @@ public class Trip {
 		this.route = routeToFollow;
 		this.tripDirection = new SimpleBooleanProperty(direction);
 		this.recurrency = new SimpleBooleanProperty(recurr);
-		this.stopTimes = new ArrayList<Tuple>();
+		this.stopTimes = new HashMap<StopPoint, String>();
 		this.tripShared = new SimpleBooleanProperty(false);
 	}
 	
 	public void addStop(StopPoint stop, String time){
-		stopTimes.add(new Tuple(stop, time));
+		stopTimes.put(stop, time);
 	}
 	
-	public Collection<Tuple> getStops(){
+	public Map<StopPoint, String> getStops(){
 		return this.stopTimes;
 	}
 
@@ -81,11 +81,11 @@ public class Trip {
 	}
 
 	public String getRecurrDays() {
-		return recurrDays;
+		return recurrDays.get();
 	}
 
 	public void setRecurrDays(String recurrDays) {
-		this.recurrDays = recurrDays;
+		this.recurrDays.set(recurrDays);
 	}
 
 	public Date getExpiryDate() {
@@ -115,13 +115,8 @@ public class Trip {
 	public StringProperty getRideToBeUsed() {
 		return new SimpleStringProperty(rideToBeUsed.toString());
 	}
-}
 
-class Tuple { 
-	  public final StopPoint stop; 
-	  public final String time; 
-	  public Tuple(StopPoint x, String y) { 
-	    this.stop = x; 
-	    this.time = y; 
-	  } 
-	} 
+	public StringProperty getRecurrDaysProperty() {
+		return recurrDays;
+	}
+}
