@@ -42,10 +42,6 @@ public class Profile implements Serializable {
 		return stopContainer.iterator();
 	}
 
-	public Boolean newStopPoint(StopPoint newStop) {
-		return this.stopContainer.add(newStop);
-	}
-
 	public User getCurrUser() {
 		return currUser;
 	}

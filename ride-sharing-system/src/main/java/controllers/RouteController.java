@@ -70,7 +70,7 @@ public class RouteController {
     @FXML
     private void handleNewRoute() {
         Route tempRoute = new Route("");
-        boolean okClicked = mainApp.showRouteEditDialog(tempRoute);
+        boolean okClicked = mainApp.mainHelper.showRouteEditDialog(tempRoute);
         if (okClicked) {
             currUser.addRoute(tempRoute);
             }
@@ -84,7 +84,7 @@ public class RouteController {
     private void handleEditRoute() {
         Route selectedRoute = routeTable.getSelectionModel().getSelectedItem();
         if (selectedRoute != null) {
-        	mainApp.showRouteEditDialog(selectedRoute);
+        	mainApp.mainHelper.showRouteEditDialog(selectedRoute);
 
         } else {
             // Nothing selected.

@@ -2,7 +2,6 @@ package controllers;
 
 import src.MainApp;
 import src.model.Profile;
-import src.model.Route;
 import src.model.Trip;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,7 +26,6 @@ public class TripController {
 
 
     // Reference to the main application.
-    @SuppressWarnings("unused")
 	private MainApp mainApp;
 	private Profile currUser;
 
@@ -59,7 +57,7 @@ public class TripController {
     @FXML
     private void handleNewTrip() {
         Trip tempTrip = new Trip(null, null, null, null, null);
-        boolean okClicked = mainApp.showTripEditDialog(tempTrip);
+        boolean okClicked = mainApp.mainHelper.showTripEditDialog(tempTrip);
         if (okClicked) {
             currUser.addTrip(tempTrip);
             }
@@ -69,7 +67,7 @@ public class TripController {
     private void handleEditTrip() {
         Trip selectedTrip = tripTable.getSelectionModel().getSelectedItem();
         if (selectedTrip != null) {
-        	mainApp.showTripEditDialog(selectedTrip);
+        	mainApp.mainHelper.showTripEditDialog(selectedTrip);
 
         } else {
             // Nothing selected.

@@ -1,13 +1,8 @@
 package controllers;
 
 import src.MainApp;
-import src.model.Profile;
-import src.model.Route;
 import src.model.StopPoint;
 import src.model.Trip;
-
-import java.util.Collection;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,7 +32,6 @@ public class AvailableTripController {
     @FXML
     private ChoiceBox<StopPoint> stopChooser;
     
-    private Profile currUser;
     private String direction = null;
     private StopPoint selectedStop = null;
 

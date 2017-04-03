@@ -10,10 +10,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="312.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TripEditController">
+<AnchorPane prefHeight="331.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TripEditController">
    <children>
-      <ChoiceBox fx:id="selectedRoute" layoutX="236.0" layoutY="14.0" prefWidth="150.0" />
-      <TableView fx:id="stopTable" layoutX="21.0" layoutY="50.0" prefHeight="145.0" prefWidth="367.0">
+      <ChoiceBox fx:id="selectedRoute" layoutX="243.0" layoutY="6.0" prefWidth="150.0" />
+      <TableView fx:id="stopTable" layoutX="17.0" layoutY="69.0" prefHeight="145.0" prefWidth="367.0">
         <columns>
           <TableColumn fx:id="stopColumn" prefWidth="75.0" text="Stop Name" />
           <TableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
@@ -22,15 +22,18 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="189.0" layoutY="18.0" text="Route" />
-      <CheckBox fx:id="sharedCheck" layoutX="21.0" layoutY="200.0" mnemonicParsing="false" text="Shared" />
-      <CheckBox fx:id="recurringCheck" layoutX="21.0" layoutY="224.0" mnemonicParsing="false" text="Recurring" />
-      <ChoiceBox fx:id="carToUse" layoutX="212.0" layoutY="205.0" prefHeight="25.0" prefWidth="174.0" />
-      <Label layoutX="152.0" layoutY="209.0" text="Car to Use" />
-      <DatePicker fx:id="expiryDate" layoutX="212.0" layoutY="239.0" />
-      <Label layoutX="149.0" layoutY="243.0" text="Expiry Date" />
-      <TextField fx:id="recurrDays" layoutX="212.0" layoutY="272.0" prefHeight="25.0" prefWidth="174.0" />
-      <Label layoutX="127.0" layoutY="276.0" text="Recurring Days" />
-      <Button layoutX="14.0" layoutY="272.0" mnemonicParsing="false" text="Save" />
+      <Label layoutX="203.0" layoutY="10.0" text="Route" />
+      <CheckBox fx:id="sharedCheck" layoutX="19.0" layoutY="221.0" mnemonicParsing="false" text="Shared" />
+      <CheckBox fx:id="recurringCheck" layoutX="19.0" layoutY="242.0" mnemonicParsing="false" text="Recurring" />
+      <ChoiceBox fx:id="carToUse" layoutX="219.0" layoutY="229.0" prefHeight="25.0" prefWidth="174.0" />
+      <Label layoutX="153.0" layoutY="233.0" text="Car to Use" />
+      <DatePicker fx:id="expiryDate" layoutX="219.0" layoutY="260.0" />
+      <Label layoutX="150.0" layoutY="264.0" text="Expiry Date" />
+      <TextField fx:id="recurrDays" layoutX="219.0" layoutY="293.0" prefHeight="25.0" prefWidth="174.0" />
+      <Label layoutX="127.0" layoutY="297.0" text="Recurring Days" />
+      <Button layoutX="14.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleOk" text="Save" />
+      <Button layoutX="19.0" layoutY="39.0" mnemonicParsing="false" onAction="#handleAddTime" text="Add Stoptime" />
+      <ChoiceBox layoutX="64.0" layoutY="6.0" prefHeight="25.0" prefWidth="126.0" />
+      <Label layoutX="10.0" layoutY="10.0" text="Direction" />
    </children>
 </AnchorPane>

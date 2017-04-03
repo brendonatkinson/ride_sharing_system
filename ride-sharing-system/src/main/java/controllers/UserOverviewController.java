@@ -73,7 +73,7 @@ public class UserOverviewController {
     @FXML
     private void handleNewCar() {
         Car tempCar = new Car("Sedan", "", "", "", 0, 0);
-        boolean okClicked = mainApp.showCarEditDialog(tempCar);
+        boolean okClicked = mainApp.mainHelper.showCarEditDialog(tempCar);
         if (okClicked) {
             currUser.addCar(tempCar);
         }
@@ -87,7 +87,7 @@ public class UserOverviewController {
     private void handleEditCar() {
         Car selectedCar = carTable.getSelectionModel().getSelectedItem();
         if (selectedCar != null) {
-        	mainApp.showCarEditDialog(selectedCar);
+        	mainApp.mainHelper.showCarEditDialog(selectedCar);
 
         } else {
             // Nothing selected.

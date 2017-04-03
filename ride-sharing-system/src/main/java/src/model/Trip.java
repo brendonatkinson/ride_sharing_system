@@ -123,4 +123,9 @@ public class Trip {
 	public StringProperty getRecurrDaysProperty() {
 		return recurrDays;
 	}
+
+	public void setRoute(Route newRoute) {
+		this.route = newRoute;
+		
+	}
 }
