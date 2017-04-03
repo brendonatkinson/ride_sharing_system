@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,7 +19,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
-import src.MainApp;
+import javafx.util.StringConverter;
+import src.model.Car;
+import src.model.Profile;
 import src.model.Route;
 import src.model.StopPoint;
 import src.model.Trip;
@@ -27,11 +30,11 @@ import src.model.Trip;
 public class TripEditController {
 
 	@FXML
-	private TableView<Map.Entry<StopPoint,String>> stopTable;
+	private TableView<StopTuple<StopPoint, String>> stopTable;
 	@FXML
-	private TableColumn<Map.Entry<StopPoint,String>, String> stopColumn;
+	private TableColumn<StopTuple<StopPoint, String>, String> stopColumn;
 	@FXML
-	private TableColumn<Map.Entry<StopPoint,String>, String> timeColumn;
+	private TableColumn<StopTuple<StopPoint, String>, String> timeColumn;
 	@FXML
 	private TextField recurrDays;
 	@FXML
@@ -41,14 +44,14 @@ public class TripEditController {
 	@FXML
 	private ChoiceBox<Route> selectedRoute;
 	@FXML
-	private ChoiceBox<String> carToUse;
+	private ChoiceBox<Car> carToUse;
 	@FXML
 	private DatePicker expiryDate;
 	
 	private Stage dialogStage;
 	private Route route;
-	private MainApp mainApp;
 	private Trip tripToEdit;
+	private Profile currUser;
 
 	/**
 	 * Initializes the controller class. This method is automatically called
@@ -56,12 +59,10 @@ public class TripEditController {
 	 */
 	@FXML
 	private void initialize() {
-		//stopColumn.setCellValueFactory(cellData -> cellData.getValue().getStop().getAddressProperty());
-		//timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
-		//selectedRoute.setItems(mainApp.getCurrUserProfile().getUserRoutes());
-		//if (tripToEdit.getRecurrency()){
-		//	recurrDays.setText(tripToEdit.getRecurrDays());
-		//}
+		//System.out.println(tripToEdit);
+		stopColumn.setCellValueFactory(cellData -> cellData.getValue().getStop().getAddressProperty());
+		timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
+
 		
 	}
 
@@ -79,11 +80,71 @@ public class TripEditController {
 	 * 
 	 * @param person
 	 */
-	public void setTrip(Trip trip) {
-		//this.tripToEdit = trip;
-		//stopTable.setItems((ObservableList<Tuple>) trip.getStops());
+	public void setTrip(Trip trip, Profile currUser) {
+		this.currUser = currUser;
+		this.tripToEdit = trip;
+		ObservableList<StopTuple<StopPoint, String>> observableStops = FXCollections.observableArrayList();
+		
+		for (Map.Entry<StopPoint, String> entry : this.tripToEdit.getStops().entrySet())
+		{
+		  StopPoint key = entry.getKey();
+		  String value = entry.getValue();
+		  observableStops.add(new StopTuple<StopPoint, String>(key, value));
+		}
 
-		//nameField.setText(route.getNameProperty().get());
+		stopTable.setItems((ObservableList<StopTuple<StopPoint, String>>)observableStops);
+		if (tripToEdit.getRecurrency()){
+			recurrDays.setText(tripToEdit.getRecurrDays());
+		}
+		if (tripToEdit.getTripShared()){
+			sharedCheck.setSelected(tripToEdit.getTripShared());
+		}
+		if (tripToEdit.getRoute() != null){
+		selectedRoute.setValue(tripToEdit.getRoute());}
+		selectedRoute.setItems(currUser.getUserRoutes());
+		selectedRoute.setConverter(new StringConverter<Route>() {
+            @Override
+            public String toString(Route route) {
+              if (route== null){
+                return null;
+              } else {
+                return route.getNameProperty().get();
+              }
+            }
+
+			@Override
+			public Route fromString(String string) {
+				return null;
+			}
+
+    	});
+    	
+    	/*// Handle Direction event.
+    	dirChooser.setOnAction((event) -> {
+    	    direction = dirChooser.getSelectionModel().getSelectedItem();
+    	    populateTable();
+    		})*/
+		if (tripToEdit.getCar() != null){
+			carToUse.setValue(tripToEdit.getCar());
+		}
+		carToUse.setItems(currUser.getCurrUser().getCars());
+		carToUse.setConverter(new StringConverter<Car>() {
+            @Override
+            public String toString(Car car) {
+              if (car == null){
+                return null;
+              } else {
+                return car.toString();
+              }
+            }
+
+			@Override
+			public Car fromString(String string) {
+				return null;
+			}
+
+    	});
+
 	}
 
 	/**
@@ -169,6 +230,20 @@ public class TripEditController {
 	}*/
 }
 
+class StopTuple<X, Y> { 
+	  private StopPoint stop; 
+	  private String time; 
+	  public StopTuple(StopPoint stop, String time) { 
+	    this.stop = stop; 
+	    this.time = time; 
+	  } 
+	  public StopPoint getStop(){
+		  return stop;
+	  }
+	  public String getTime(){
+		  return time;
+	  }
+	} 
 
 
 

@@ -30,6 +30,10 @@ public class User {
 	public String getName() {
 		return name.get();
 	}
+	
+	public StringProperty getNameProperty() {
+		return name;
+	}
 
 
 	public void addCar(Car vehicle){

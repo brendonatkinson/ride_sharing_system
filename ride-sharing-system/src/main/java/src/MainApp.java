@@ -7,6 +7,7 @@ import src.model.Route;
 import src.model.User;
 import src.model.StopPoint;
 import src.model.Trip;
+import controllers.AvailableTripController;
 import controllers.CarEditController;
 import controllers.RouteController;
 import controllers.RouteEditController;
@@ -33,6 +34,7 @@ public class MainApp extends Application {
     private Accordion layoutAccord = new Accordion();
     private Profile currUser;
     private static ObservableList<StopPoint> stopPointContainer;
+	private static ObservableList<Trip> tripContainer;
    
     @Override
     public void start(Stage primaryStage) {
@@ -44,6 +46,7 @@ public class MainApp extends Application {
         showUserOverview();
         showTripOverview();
         showRouteOverview();
+        showAvailTripOverview();
         
         rootLayout.setCenter(layoutAccord);
     }
@@ -55,6 +58,7 @@ public class MainApp extends Application {
     public MainApp() {
         // Sample Data, can remove this
     	stopPointContainer = FXCollections.observableArrayList();
+    	tripContainer = FXCollections.observableArrayList();
     	User testUser = new User("Bruno", false);
     	currUser = new Profile(testUser);
     	Car honda = new Car("Sedan", "Honda", "Blue", "FLZ111", 0, 0);
@@ -70,7 +74,11 @@ public class MainApp extends Application {
     	routed.add(stop3);
     	currUser.addRoute(routed);
     	Trip newTrip = new Trip(testUser, honda, routed, false, false);
+    	newTrip.addStop(stop1, "11:00");
+    	newTrip.setTripShared(true);
+    	newTrip.getCar().setAvailSeats(2);
     	currUser.addTrip(newTrip);
+    	tripContainer.add(newTrip);
     	
     	//Try to read in saved user profile
     	//else create blank currUser = new User("", false);
@@ -86,7 +94,10 @@ public class MainApp extends Application {
 		return stopPointContainer;
 	}
 
-
+	public static ObservableList<Trip> getCurrTrips() {
+		return tripContainer;
+	}
+    
 	public Profile getCurrUserProfile() {
         return currUser;
     }
@@ -162,6 +173,27 @@ public class MainApp extends Application {
             
          // Give the controller access to the main app.
             TripController controller = loader.getController();
+            controller.setMainApp(this);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void showAvailTripOverview() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/controllers/AvailableTripOverview.fxml"));
+            AnchorPane availTripOverview = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            final TitledPane tp = new TitledPane("Available Trips", availTripOverview);
+            layoutAccord.getPanes().add(tp);
+            //rootLayout.setCenter(layoutAccord);
+            
+         // Give the controller access to the main app.
+            AvailableTripController controller = loader.getController();
             controller.setMainApp(this);
             
         } catch (IOException e) {
@@ -245,7 +277,6 @@ public class MainApp extends Application {
 	            FXMLLoader loader = new FXMLLoader();
 	            loader.setLocation(MainApp.class.getResource("/controllers/TripEditDialog.fxml"));
 	            AnchorPane page = (AnchorPane) loader.load();
-
 	            // Create the dialog Stage.
 	            dialogStage = new Stage();
 	            dialogStage.setTitle("Edit Route");
@@ -257,7 +288,7 @@ public class MainApp extends Application {
 	            // Set the person into the controller.
 	            TripEditController controller = loader.getController();
 	            controller.setDialogStage(dialogStage);
-	            controller.setTrip(selectedTrip);
+	            controller.setTrip(selectedTrip, getCurrUserProfile());
 
 	            // Show the dialog and wait until the user closes it
 	            dialogStage.showAndWait();
@@ -273,5 +304,6 @@ public class MainApp extends Application {
 	public static void removeStopPoint(StopPoint stopToDel) {
 		stopPointContainer.remove(stopToDel);
 	}
+
 	 
 }

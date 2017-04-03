@@ -115,6 +115,10 @@ public class Trip {
 	public StringProperty getRideToBeUsed() {
 		return new SimpleStringProperty(rideToBeUsed.toString());
 	}
+	
+	public Car getCar() {
+		return rideToBeUsed;
+	}
 
 	public StringProperty getRecurrDaysProperty() {
 		return recurrDays;
