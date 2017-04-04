@@ -19,16 +19,36 @@ import javafx.scene.control.Accordion;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainApp.
+ */
 public class MainApp extends Application {
 
+    /** The primary stage. */
     private Stage primaryStage;
+    
+    /** The root layout. */
     private BorderPane rootLayout;
+    
+    /** The layout accord. */
     private Accordion layoutAccord = new Accordion();
+    
+    /** The curr user. */
     private Profile currUser;
+    
+    /** The stop point container. */
     private static ObservableList<StopPoint> stopPointContainer;
+	
+	/** The trip container. */
 	private static ObservableList<Trip> tripContainer;
+    
+    /** The main helper. */
     public MainController mainHelper = new MainController();
    
+    /* (non-Javadoc)
+     * @see javafx.application.Application#start(javafx.stage.Stage)
+     */
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -49,7 +69,7 @@ public class MainApp extends Application {
 
 
     /**
-     * Constructor
+     * Constructor.
      */
     public MainApp() {
         // Sample Data, can remove this
@@ -77,6 +97,9 @@ public class MainApp extends Application {
     
     }
     
+    /**
+     * Inits the root layout.
+     */
     public void initRootLayout() { // NO_UCD (use private)
         try {
             // Load root layout from fxml file.
@@ -94,6 +117,12 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * Adds the stop point.
+     *
+     * @param newStopPoint the new stop point
+     * @return the boolean
+     */
     public static Boolean addStopPoint(StopPoint newStopPoint) {
     	if (!stopPointContainer.contains(newStopPoint)){
     		stopPointContainer.add(newStopPoint);
@@ -102,30 +131,65 @@ public class MainApp extends Application {
 		return false;
 	}
     
+    /**
+     * Gets the stop points.
+     *
+     * @return the stop points
+     */
     public static ObservableList<StopPoint> getStopPoints() {
 		return stopPointContainer;
 	}
 
+	/**
+	 * Gets the curr trips.
+	 *
+	 * @return the curr trips
+	 */
 	public static ObservableList<Trip> getCurrTrips() {
 		return tripContainer;
 	}
     
+	/**
+	 * Gets the curr user profile.
+	 *
+	 * @return the curr user profile
+	 */
 	public Profile getCurrUserProfile() {
         return currUser;
     }
     
+    /**
+     * Gets the primary stage.
+     *
+     * @return the primary stage
+     */
     public Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+	/**
+	 * Removes the stop point.
+	 *
+	 * @param stopToDel the stop to del
+	 */
 	public static void removeStopPoint(StopPoint stopToDel) {
 		stopPointContainer.remove(stopToDel);
 	}
 	
+	/**
+	 * Adds the trip.
+	 *
+	 * @param tempTrip the temp trip
+	 */
 	public static void addTrip(Trip tempTrip) {
 		tripContainer.add(tempTrip);
 	}

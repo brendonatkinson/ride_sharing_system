@@ -10,22 +10,32 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 
 
-public class RouteController { // NO_UCD (use default)
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RouteController.
+ */
+public class RouteController { /** The route table. */
+ // NO_UCD (use default)
     @FXML
     private TableView<Route> routeTable;
+    
+    /** The name column. */
     @FXML
     private TableColumn<Route, String> nameColumn;
+    
+    /** The stop column. */
     @FXML
     private TableColumn<Route, String> stopColumn;
     
+    /** The curr user. */
     private Profile currUser;
 
+    /** The main app. */
     // Reference to the main application.
 	private MainApp mainApp;
 
     /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
+     * Instantiates a new route controller.
      */
     public RouteController() {
     }
@@ -36,13 +46,13 @@ public class RouteController { // NO_UCD (use default)
      */
     @FXML
     private void initialize() {
-        // Initialize the person table with the two columns.
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         stopColumn.setCellValueFactory(cellData -> cellData.getValue().getStopsString());
     }
 
+
     /**
-     * Called when the user clicks on the delete button.
+     * Handle delete route.
      */
     @FXML
     private void handleDeleteRoute() {
@@ -63,8 +73,7 @@ public class RouteController { // NO_UCD (use default)
     }
     
     /**
-     * Called when the user clicks the new button. Opens a dialog to edit
-     * details for a new person.
+     * Handle new route.
      */
     @FXML
     private void handleNewRoute() {
@@ -75,9 +84,9 @@ public class RouteController { // NO_UCD (use default)
             }
     }
 
+
     /**
-     * Called when the user clicks the edit button. Opens a dialog to edit
-     * details for the selected person.
+     * Handle edit route.
      */
     @FXML
     private void handleEditRoute() {
@@ -101,8 +110,8 @@ public class RouteController { // NO_UCD (use default)
     
     /**
      * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
+     *
+     * @param mainApp the new main app
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;

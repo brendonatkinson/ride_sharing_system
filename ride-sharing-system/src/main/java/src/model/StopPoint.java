@@ -3,16 +3,32 @@ package src.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StopPoint.
+ */
 public class StopPoint {
 	
+	/** The number. */
 	private Integer number;
+	
+	/** The street. */
 	private String street;
 	
+	/**
+	 * Instantiates a new stop point.
+	 *
+	 * @param stopNumber the stop number
+	 * @param stopAddress the stop address
+	 */
 	public StopPoint(int stopNumber, String stopAddress){
 		this.number = stopNumber;
 		this.street = stopAddress;
 	}
+	
 	/**
+	 * Gets the address property.
+	 *
 	 * @return the number
 	 */
 	public StringProperty getAddressProperty() {
@@ -20,12 +36,17 @@ public class StopPoint {
 	}
 	
 	/**
+	 * Gets the address.
+	 *
 	 * @return the number
 	 */
 	public String getAddress() {
 		return (this.number + " " + this.street);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -35,6 +56,9 @@ public class StopPoint {
 		return result;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

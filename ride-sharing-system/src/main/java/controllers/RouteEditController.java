@@ -18,17 +18,34 @@ import src.model.Route;
 import src.model.StopPoint;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RouteEditController.
+ */
 public class RouteEditController { // NO_UCD (use default)
 
-	@FXML
+	/** The name field. */
+ @FXML
 	private TextField nameField;
+	
+	/** The stop table. */
 	@FXML
 	private TableView<StopPoint> stopTable;
+	
+	/** The stop column. */
 	@FXML
 	private TableColumn<StopPoint, String> stopColumn;
+	
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The route. */
 	private Route route;
+	
+	/** The main app. */
 	private MainApp mainApp;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
 
 	/**
@@ -42,8 +59,8 @@ public class RouteEditController { // NO_UCD (use default)
 
 	/**
 	 * Sets the stage of this dialog.
-	 * 
-	 * @param dialogStage
+	 *
+	 * @param dialogStage the new dialog stage
 	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
@@ -51,8 +68,8 @@ public class RouteEditController { // NO_UCD (use default)
 
 	/**
 	 * Sets the person to be edited in the dialog.
-	 * 
-	 * @param person
+	 *
+	 * @param route the new route
 	 */
 	public void setRoute(Route route) {
 		this.route = route;
@@ -61,10 +78,10 @@ public class RouteEditController { // NO_UCD (use default)
 	}
 
 	 /**
-     * Returns true if the user clicked OK, false otherwise.
-     * 
-     * @return
-     */
+ 	 * Returns true if the user clicked OK, false otherwise.
+ 	 *
+ 	 * @return true, if is ok clicked
+ 	 */
     public boolean isOkClicked() {
         return okClicked ;
     }
@@ -83,6 +100,11 @@ public class RouteEditController { // NO_UCD (use default)
 	}
 
 
+	/**
+	 * Verify fields.
+	 *
+	 * @return the boolean
+	 */
 	private Boolean verifyFields() {
 		Boolean nameFlag = false;
 		Boolean stopsFlag = false;
@@ -112,8 +134,8 @@ public class RouteEditController { // NO_UCD (use default)
 
 	/**
 	 * Validates the user input in the text fields.
-	 * @param items 
-	 * 
+	 *
+	 * @param items the items
 	 * @return true if the input is valid
 	 */
 	private boolean isInputValid(String items) {
@@ -142,6 +164,9 @@ public class RouteEditController { // NO_UCD (use default)
 
 	}
 
+	/**
+	 * Handle add stop.
+	 */
 	@FXML
 	private void handleAddStop() {
 		TextInputDialog dialog = new TextInputDialog("");

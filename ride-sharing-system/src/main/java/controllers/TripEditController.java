@@ -30,35 +30,67 @@ import src.model.StopPoint;
 import src.model.Trip;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TripEditController.
+ */
 public class TripEditController {
 
+	/** The stop table. */
 	@FXML
 	private TableView<StopTuple<StopPoint, String>> stopTable; // NO_UCD (unused code)
+	
+	/** The stop column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> stopColumn;
+	
+	/** The time column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> timeColumn;
+	
+	/** The recurr days. */
 	@FXML
 	private TextField recurrDays;
+	
+	/** The shared check. */
 	@FXML
 	private CheckBox sharedCheck;
+	
+	/** The recurring check. */
 	@FXML
 	private CheckBox recurringCheck;
+	
+	/** The selected route. */
 	@FXML
 	private ChoiceBox<Route> selectedRoute;
+	
+	/** The dir chooser. */
 	@FXML
 	private ChoiceBox<String> dirChooser;
+	
+	/** The car to use. */
 	@FXML
 	private ChoiceBox<Car> carToUse;
+	
+	/** The num avail seats. */
 	@FXML
 	private ChoiceBox<Integer> numAvailSeats;
+	
+	/** The expiry date. */
 	@FXML
 	private DatePicker expiryDate;
 
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The trip to edit. */
 	private Trip tripToEdit;
+	
+	/** The ok clicked. */
 	@SuppressWarnings("unused")
 	private boolean okClicked;
+	
+	/** The observable stops. */
 	private ObservableList<StopTuple<StopPoint, String>> observableStops;
 
 	/**
@@ -76,8 +108,8 @@ public class TripEditController {
 
 	/**
 	 * Sets the stage of this dialog.
-	 * 
-	 * @param dialogStage
+	 *
+	 * @param dialogStage the new dialog stage
 	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
@@ -85,8 +117,9 @@ public class TripEditController {
 
 	/**
 	 * Sets the person to be edited in the dialog.
-	 * 
-	 * @param person
+	 *
+	 * @param trip the trip
+	 * @param currUser the curr user
 	 */
 	public void setTrip(Trip trip, Profile currUser) {
 		this.tripToEdit = trip;
@@ -170,6 +203,9 @@ public class TripEditController {
 
 	}
 
+	/**
+	 * Populate table.
+	 */
 	private void populateTable() {
 		observableStops = FXCollections.observableArrayList();
 
@@ -191,6 +227,9 @@ public class TripEditController {
 
 	}
 
+	/**
+	 * Handle add time.
+	 */
 	@FXML
 	private void handleAddTime() {
 		StopTuple<StopPoint, String> selectedStop = stopTable.getSelectionModel().getSelectedItem();
@@ -207,6 +246,9 @@ public class TripEditController {
 		stopTable.refresh();
 	}
 
+	/**
+	 * Handle ok.
+	 */
 	@FXML
 	private void handleOk() {
 		if (isInputValid()){
@@ -239,10 +281,10 @@ public class TripEditController {
 		}
 
 	}
+	
 	/**
 	 * Validates the user input in the text fields.
-	 * @param items 
-	 * 
+	 *
 	 * @return true if the input is valid
 	 */
 	private boolean isInputValid() {

@@ -16,30 +16,58 @@ import src.model.StopPoint;
 import src.model.Trip;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AvailableTripDetailController.
+ */
 public class AvailableTripDetailController { // NO_UCD (use default)
 
-	@FXML
+	/** The driver name field. */
+ @FXML
 	private TextField driverNameField;
+	
+	/** The stop table. */
 	@FXML
 	private TableView<StopTuple<StopPoint, String>> stopTable; // NO_UCD (unused code)
+	
+	/** The stop column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> stopColumn;
+	
+	/** The time column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> timeColumn;
+	
+	/** The car model field. */
 	@FXML
 	private TextField carModelField;
+	
+	/** The car year field. */
 	@FXML
 	private TextField carYearField;
+	
+	/** The car colour field. */
 	@FXML
 	private TextField carColourField;
+	
+	/** The car seats avail field. */
 	@FXML
 	private TextField carSeatsAvailField;
+	
+	/** The route length field. */
 	@FXML
 	private TextField routeLengthField;
 	
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The main app. */
 	private MainApp mainApp;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
+	
+	/** The trip view. */
 	private Trip tripView;
 
 	/**
@@ -53,19 +81,19 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	}
 
 	/**
-	 * Sets the stage of this dialog.
-	 * 
-	 * @param dialogStage
+	 * Sets the dialog stage.
+	 *
+	 * @param dialogStage the new dialog stage
 	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 
 	/**
-	 * Sets the person to be edited in the dialog.
-	 * @param mainApp 
-	 * 
-	 * @param person
+	 * Sets the.
+	 *
+	 * @param tripToView the trip to view
+	 * @param mainApp the main app
 	 */
 	public void set(Trip tripToView, MainApp mainApp) {
 		this.mainApp = mainApp;
@@ -85,23 +113,22 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 			String value = entry.getValue();
 			observableStops.add(new StopTuple<StopPoint, String>(key, value));
 		}
-
-		
+	
 		stopTable.setItems(observableStops);
-		//nameField.setText(route.getNameProperty().get());
 	}
 
-	 /**
-     * Returns true if the user clicked OK, false otherwise.
-     * 
-     * @return
+
+    /**
+     * Checks if is ok clicked.
+     *
+     * @return true, if is ok clicked
      */
     public boolean isOkClicked() {
         return okClicked ;
     }
-	
+
 	/**
-	 * Called when the user clicks ok.
+	 * Handle book trip.
 	 */
 	@FXML
 	private void handleBookTrip() {
@@ -111,7 +138,7 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	}
 	
 	/**
-	 * Called when the user clicks ok.
+	 * Handle close.
 	 */
 	@FXML
 	private void handleClose() {

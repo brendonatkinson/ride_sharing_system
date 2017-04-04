@@ -17,23 +17,43 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class UserOverviewController { // NO_UCD (use default)
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserOverviewController.
+ */
+public class UserOverviewController { /** The car table. */
+ // NO_UCD (use default)
     @FXML
     private TableView<Car> carTable;
+    
+    /** The model column. */
     @FXML
     private TableColumn<Car, String> modelColumn;
+    
+    /** The plates column. */
     @FXML
     private TableColumn<Car, String> platesColumn;
+    
+    /** The user name. */
     @FXML
     private TextField userName;
+    
+    /** The curr user. */
     private User currUser;
 
+    /** The main app. */
     // Reference to the main application.
     private MainApp mainApp;
 
+    /**
+     * Instantiates a new user overview controller.
+     */
     public UserOverviewController() {
     }
 
+    /**
+     * Initialize.
+     */
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -41,6 +61,9 @@ public class UserOverviewController { // NO_UCD (use default)
         platesColumn.setCellValueFactory(cellData -> cellData.getValue().getLicensePlateProperty());
     }
 
+    /**
+     * Handle delete car.
+     */
     @FXML
     private void handleDeleteCar() {
         int selectedIndex = carTable.getSelectionModel().getSelectedIndex();
@@ -60,6 +83,9 @@ public class UserOverviewController { // NO_UCD (use default)
         }
     }
     
+    /**
+     * Handle new car.
+     */
     @FXML
     private void handleNewCar() {
         Car tempCar = new Car("Sedan", "", "", "", 0, 0);
@@ -69,6 +95,9 @@ public class UserOverviewController { // NO_UCD (use default)
         }
     }
 
+    /**
+     * Handle edit car.
+     */
     @FXML
     private void handleEditCar() {
         Car selectedCar = carTable.getSelectionModel().getSelectedItem();
@@ -87,6 +116,9 @@ public class UserOverviewController { // NO_UCD (use default)
         }
     }
     
+    /**
+     * Handle save user.
+     */
     @FXML
     private void handleSaveUser() {
     	try {
@@ -102,6 +134,9 @@ public class UserOverviewController { // NO_UCD (use default)
          }
     }
     
+    /**
+     * Handle new user.
+     */
     @FXML
     private void handleNewUser() {
     	Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -117,12 +152,20 @@ public class UserOverviewController { // NO_UCD (use default)
     	}
     }
     
+    /**
+     * Clear dialog fields.
+     */
     private void clearDialogFields() {
     	carTable.getItems().clear();
         userName.setText("");
         mainApp.getCurrUserProfile().resetProfile();
 	}
 
+    /**
+     * Sets the main app.
+     *
+     * @param mainApp the new main app
+     */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 

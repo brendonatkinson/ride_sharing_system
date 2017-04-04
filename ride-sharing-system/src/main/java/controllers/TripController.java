@@ -10,23 +10,41 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 
 
-public class TripController { // NO_UCD (use default)
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TripController.
+ */
+public class TripController { /** The trip table. */
+ // NO_UCD (use default)
     @FXML
     private TableView<Trip> tripTable;
+    
+    /** The shared column. */
     @FXML
     private TableColumn<Trip, Boolean> sharedColumn;
+    
+    /** The route name column. */
     @FXML
     private TableColumn<Trip, String> routeNameColumn;
+    
+    /** The direction column. */
     @FXML
     private TableColumn<Trip, String> directionColumn;
+    
+    /** The car column. */
     @FXML
     private TableColumn<Trip, String> carColumn;
+    
+    /** The recurring column. */
     @FXML
     private TableColumn<Trip, Boolean> recurringColumn;
 
 
+    /** The main app. */
     // Reference to the main application.
 	private MainApp mainApp;
+	
+	/** The curr user. */
 	private Profile currUser;
 
     /**
@@ -67,6 +85,9 @@ public class TripController { // NO_UCD (use default)
             }}
     }
 
+    /**
+     * Handle edit trip.
+     */
     @FXML
     private void handleEditTrip() {
         Trip selectedTrip = tripTable.getSelectionModel().getSelectedItem();
@@ -101,8 +122,8 @@ public class TripController { // NO_UCD (use default)
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("No Selection");
-			alert.setHeaderText("No Stop Selected");
-			alert.setContentText("Please select a stop to remove.");
+			alert.setHeaderText("No Trip Selected");
+			alert.setContentText("Please select a trip to remove.");
 
 			alert.showAndWait();
 		}
@@ -110,8 +131,8 @@ public class TripController { // NO_UCD (use default)
     
     /**
      * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
+     *
+     * @param mainApp the new main app
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;

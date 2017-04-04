@@ -8,25 +8,43 @@ import javafx.stage.Stage;
 import src.model.Car;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CarEditController.
+ */
 public class CarEditController { // NO_UCD (use default)
 
-    @FXML
+    /** The model field. */
+ @FXML
     private TextField modelField;
+    
+    /** The type field. */
     @FXML
     private TextField typeField;
+    
+    /** The plate field. */
     @FXML
     private TextField plateField;
+    
+    /** The colour field. */
     @FXML
     private TextField colourField;
+    
+    /** The seats field. */
     @FXML
     private TextField seatsField;
+    
+    /** The year field. */
     @FXML
     private TextField yearField;
 
-
-
+    /** The dialog stage. */
     private Stage dialogStage;
+    
+    /** The car. */
     private Car car;
+    
+    /** The ok clicked. */
     private boolean okClicked = false;
 
     /**
@@ -38,18 +56,18 @@ public class CarEditController { // NO_UCD (use default)
     }
 
     /**
-     * Sets the stage of this dialog.
-     * 
-     * @param dialogStage
+     * Sets the dialog stage.
+     *
+     * @param dialogStage the new dialog stage
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
     /**
-     * Sets the person to be edited in the dialog.
-     * 
-     * @param person
+     * Sets the car.
+     *
+     * @param car the new car
      */
     public void setCar(Car car) {
         this.car = car;
@@ -62,17 +80,19 @@ public class CarEditController { // NO_UCD (use default)
         seatsField.setText(car.getNumSeats().toString());
     }
 
+
     /**
-     * Returns true if the user clicked OK, false otherwise.
-     * 
-     * @return
+     * Checks if is ok clicked.
+     *
+     * @return true, if is ok clicked
      */
     public boolean isOkClicked() {
         return okClicked;
     }
 
+
     /**
-     * Called when the user clicks ok.
+     * Handle ok.
      */
     @FXML
     private void handleOk() {
