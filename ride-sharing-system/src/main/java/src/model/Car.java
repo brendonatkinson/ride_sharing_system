@@ -1,5 +1,7 @@
 package src.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,6 +21,7 @@ public class Car
 	private IntegerProperty carYear;
 	private IntegerProperty numSeats;
 	private IntegerProperty availSeats;
+	private Collection<User> bookedUsers;
 	
 	public Car(String type, String carModel, String colour, String plate, int year, int seats){
 		carType = new SimpleStringProperty(type);
@@ -28,6 +31,7 @@ public class Car
 		carYear =  new SimpleIntegerProperty(year);
 		numSeats =  new SimpleIntegerProperty(seats);
 		availSeats = new SimpleIntegerProperty(0);  //No seats available as default
+		bookedUsers = new ArrayList<User>();
 	}
 
 	public void setModel(String model) {
@@ -103,6 +107,12 @@ public class Car
 
 	public String getCarColour() {
 		return carColour.get();
+	}
+
+	public void bookRide(User currUser) {
+		bookedUsers.add(currUser);
+		availSeats.subtract(1);
+		
 	}
 
 }

@@ -1,11 +1,17 @@
 package controllers;
 
+import java.util.Map;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import src.MainApp;
+import src.StopTuple;
 import src.model.StopPoint;
 import src.model.Trip;
 
@@ -15,11 +21,11 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	@FXML
 	private TextField driverNameField;
 	@FXML
-	private TableView<StopPoint> stopTable;
+	private TableView<StopTuple<StopPoint, String>> stopTable; // NO_UCD (unused code)
 	@FXML
-	private TableColumn<StopPoint, String> stopColumn;
+	private TableColumn<StopTuple<StopPoint, String>, String> stopColumn;
 	@FXML
-	private TableColumn<String, String> timeColumn;
+	private TableColumn<StopTuple<StopPoint, String>, String> timeColumn;
 	@FXML
 	private TextField carModelField;
 	@FXML
@@ -42,7 +48,8 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	 */
 	@FXML
 	private void initialize() {
-		//stopColumn.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
+		stopColumn.setCellValueFactory(cellData -> cellData.getValue().getStop().getAddressProperty());
+		timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTime()));
 	}
 
 	/**
@@ -56,19 +63,31 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 
 	/**
 	 * Sets the person to be edited in the dialog.
+	 * @param mainApp 
 	 * 
 	 * @param person
 	 */
-	public void set(Trip tripToView) {
+	public void set(Trip tripToView, MainApp mainApp) {
+		this.mainApp = mainApp;
 		this.tripView = tripToView;
 		driverNameField.setText(tripToView.getCreatingUser().getName());
 		carModelField.setText(tripToView.getCar().getModel());
 		carYearField.setText(tripToView.getCar().getCarYear().toString());
 		carColourField.setText(tripToView.getCar().getCarColour());
 		carSeatsAvailField.setText(tripToView.getCar().getAvailSeats().toString());
-		//routeLengthField.setText(tripToView.getCar().getModel());
+		Integer routeLength = new Integer(tripToView.getRoute().getStops().size());
+		routeLengthField.setText(routeLength.toString());
 		
-		//stopTable.setItems(route.getStops());
+		ObservableList<StopTuple<StopPoint, String>> observableStops = FXCollections.observableArrayList();
+		for (Map.Entry<StopPoint, String> entry : tripToView.getStops().entrySet())
+		{
+			StopPoint key = entry.getKey();
+			String value = entry.getValue();
+			observableStops.add(new StopTuple<StopPoint, String>(key, value));
+		}
+
+		
+		stopTable.setItems(observableStops);
 		//nameField.setText(route.getNameProperty().get());
 	}
 
@@ -86,6 +105,7 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	 */
 	@FXML
 	private void handleBookTrip() {
+		tripView.getCar().bookRide(mainApp.getCurrUserProfile().getCurrUser());
 		okClicked = true;
 		dialogStage.close();
 	}
@@ -97,6 +117,7 @@ public class AvailableTripDetailController { // NO_UCD (use default)
 	private void handleClose() {
 		dialogStage.close();
 	}
+
 		
 }
 

@@ -22,6 +22,7 @@ import javafx.scene.control.TextInputDialog;
 
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import src.StopTuple;
 import src.model.Car;
 import src.model.Profile;
 import src.model.Route;
@@ -56,6 +57,7 @@ public class TripEditController {
 
 	private Stage dialogStage;
 	private Trip tripToEdit;
+	@SuppressWarnings("unused")
 	private boolean okClicked;
 	private ObservableList<StopTuple<StopPoint, String>> observableStops;
 
@@ -106,7 +108,7 @@ public class TripEditController {
 			recurrDays.setDisable(false);
 			expiryDate.setDisable(false);	
 		});
-		
+
 		selectedRoute.setItems(currUser.getUserRoutes());
 		selectedRoute.setConverter(new StringConverter<Route>() {
 			@Override
@@ -150,7 +152,7 @@ public class TripEditController {
 			}
 
 		});
-		
+
 		carToUse.setOnAction((event) -> {
 			//Integer numSeats = carToUse.getSelectionModel().getSelectedItem().getNumSeats();
 			//System.out.println(numSeats);
@@ -158,7 +160,7 @@ public class TripEditController {
 			ObservableList<Integer> observedNums = FXCollections.observableArrayList(range);
 			numAvailSeats.setItems(observedNums);	
 		});
-		
+
 		if (tripToEdit.getCar() != null){
 			carToUse.setValue(tripToEdit.getCar());
 			List<Integer> range = IntStream.range(0, tripToEdit.getCar().getNumSeats()).boxed().collect(Collectors.toList());
@@ -207,46 +209,72 @@ public class TripEditController {
 
 	@FXML
 	private void handleOk() {
-		tripToEdit.setTripShared(sharedCheck.isSelected());
+		if (isInputValid()){
+			tripToEdit.setTripShared(sharedCheck.isSelected());
 
-		tripToEdit.setCar(carToUse.getSelectionModel().getSelectedItem());
-		if (!recurrDays.getText().isEmpty()){
-			tripToEdit.setRecurrDays(recurrDays.getText());
+			tripToEdit.setCar(carToUse.getSelectionModel().getSelectedItem());
+			if (!recurrDays.getText().isEmpty()){
+				tripToEdit.setRecurrDays(recurrDays.getText());
+			}
+			tripToEdit.setExpiryDate(expiryDate.getValue());
+			tripToEdit.setRoute(selectedRoute.getSelectionModel().getSelectedItem());
+			tripToEdit.setRecurrency(recurringCheck.isSelected());
+			tripToEdit.setTripDirection(dirChooser.getSelectionModel().getSelectedItem());
+			tripToEdit.getCar().setAvailSeats(numAvailSeats.getValue());
+
+			for (StopTuple<StopPoint, String> stops: observableStops){
+				if (!tripToEdit.getStops().containsValue(stops.getStop())){
+					tripToEdit.addStop(stops.getStop(), stops.getTime());
+				}
+			}
+
+			okClicked = true;
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Trip creation success");
+			alert.setContentText("The trip was successfully created.");
+
+			alert.showAndWait();
+			dialogStage.close();
 		}
-		tripToEdit.setExpiryDate(expiryDate.getValue());
-		tripToEdit.setRoute(selectedRoute.getSelectionModel().getSelectedItem());
-		tripToEdit.setRecurrency(recurringCheck.isSelected());
-		tripToEdit.setTripDirection(dirChooser.getSelectionModel().getSelectedItem());
-		tripToEdit.getCar().setAvailSeats(numAvailSeats.getValue());
-
-		for (StopTuple<StopPoint, String> stops: observableStops){
-			if (!tripToEdit.getStops().containsValue(stops.getStop())){
-				tripToEdit.addStop(stops.getStop(), stops.getTime());
-		}
-		}
-
-
-		okClicked = true;
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText("Trip creation success");
-		alert.setContentText("The trip was successfully created.");
-
-		alert.showAndWait();
-		dialogStage.close();
 
 	}
-		/**
-		 * Validates the user input in the text fields.
-		 * @param items 
-		 * 
-		 * @return true if the input is valid
-		 */
-		/*private boolean isInputValid(String items) {
+	/**
+	 * Validates the user input in the text fields.
+	 * @param items 
+	 * 
+	 * @return true if the input is valid
+	 */
+	private boolean isInputValid() {
 		String errorMessage = "";
-		if (!items.matches("\\d{1,5}[\\s\\w+]+")) {
-			errorMessage += "Not a valid address!\n"; 
+		if (observableStops != null){
+			for (StopTuple<StopPoint, String> stops: observableStops){
+				if (stops.getTime().equals("")){
+					errorMessage += "All Stops need an arrival time!\n";
+				}
+			}
 		}
+
+		if (recurringCheck.isSelected()){
+			if (expiryDate.getValue() == null || recurrDays.getText().equals("")){
+				errorMessage += "Recurrance date and days is required!\n";
+			}
+		}
+
+		if (selectedRoute.getSelectionModel().getSelectedItem() == null){
+			errorMessage += "A route needs to be selected!\n";
+		}
+
+		if (dirChooser.getSelectionModel().getSelectedItem() == null){
+			errorMessage += "A direction needs to be selected!\n";
+		}
+		if (carToUse.getSelectionModel().getSelectedItem() == null){
+			errorMessage += "A car needs to be selected!\n";
+		}
+		if (numAvailSeats.getSelectionModel().getSelectedItem() == null){
+			errorMessage += "A number of seats need to be selected!\n";
+		}
+
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
@@ -259,24 +287,6 @@ public class TripEditController {
 			alert.showAndWait();
 			return false;
 		}
-	}*/
+	}
 
 }
-
-class StopTuple<X, Y> { 
-	private StopPoint stop; 
-	private String time; 
-	public StopTuple(StopPoint stop, String time) { 
-		this.stop = stop; 
-		this.time = time; 
-	} 
-	public StopPoint getStop(){
-		return stop;
-	}
-	public String getTime(){
-		return time;
-	}
-	public void setTime(String time){
-		this.time = time;
-	}
-} 

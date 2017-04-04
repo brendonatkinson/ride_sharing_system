@@ -67,7 +67,7 @@ public boolean showTripDetails(Trip selectedTrip) {
         // Set the person into the controller.
         AvailableTripDetailController controller = loader.getController();
         controller.setDialogStage(dialogStage);
-        controller.set(selectedTrip);
+        controller.set(selectedTrip, mainApp);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
