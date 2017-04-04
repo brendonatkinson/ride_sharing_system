@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class User {
+
 	private StringProperty name;
 	private BooleanProperty role;
 	private ObservableList<Car> observableCars = FXCollections.observableArrayList();

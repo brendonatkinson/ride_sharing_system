@@ -18,7 +18,7 @@ import src.model.Route;
 import src.model.StopPoint;
 
 
-public class RouteEditController {
+public class RouteEditController { // NO_UCD (use default)
 
 	@FXML
 	private TextField nameField;
@@ -29,6 +29,7 @@ public class RouteEditController {
 	private Stage dialogStage;
 	private Route route;
 	private MainApp mainApp;
+	private boolean okClicked = false;
 
 	/**
 	 * Initializes the controller class. This method is automatically called
@@ -56,19 +57,58 @@ public class RouteEditController {
 	public void setRoute(Route route) {
 		this.route = route;
 		stopTable.setItems(route.getStops());
-
 		nameField.setText(route.getNameProperty().get());
 	}
 
+	 /**
+     * Returns true if the user clicked OK, false otherwise.
+     * 
+     * @return
+     */
+    public boolean isOkClicked() {
+        return okClicked ;
+    }
+	
 	/**
 	 * Called when the user clicks ok.
 	 */
 	@FXML
 	private void handleOk() {
-		route.setName(nameField.getText());
-		dialogStage.close();
+		if (verifyFields()){
+			route.setName(nameField.getText());
+			okClicked = true;
+			dialogStage.close();
+		}
+		
 	}
 
+
+	private Boolean verifyFields() {
+		Boolean nameFlag = false;
+		Boolean stopsFlag = false;
+		if (nameField.getText() != null && !nameField.getText().trim().isEmpty()){
+			nameFlag = true;
+		} else{
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Dialog");
+		alert.setHeaderText("No Name");
+		alert.setContentText("Please enter a Route name.");
+
+		alert.showAndWait();
+		}
+		
+		if (!stopTable.getItems().isEmpty()){
+			stopsFlag = true;
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("No Stops");
+			alert.setContentText("Please enter at least one stop.");
+
+			alert.showAndWait();
+		}
+		return nameFlag & stopsFlag;
+	}
 
 	/**
 	 * Validates the user input in the text fields.
@@ -135,8 +175,8 @@ public class RouteEditController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("No Selection");
-			alert.setHeaderText("No Car Selected");
-			alert.setContentText("Please select a car in the table.");
+			alert.setHeaderText("No Stop Selected");
+			alert.setContentText("Please select a stop to remove.");
 
 			alert.showAndWait();
 		}

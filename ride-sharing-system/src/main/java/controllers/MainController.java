@@ -48,6 +48,36 @@ public boolean showRouteEditDialog(Route selectedRoute) {
         return false;
     }
 }
+
+public boolean showTripDetails(Trip selectedTrip) {
+    try {
+        // Load the fxml file and create a new stage for the popup dialog.
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("/controllers/AvailableTripDialog.fxml"));
+        AnchorPane page = (AnchorPane) loader.load();
+
+        // Create the dialog Stage.
+        dialogStage = new Stage();
+        dialogStage.setTitle("Edit Route");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(primaryStage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Set the person into the controller.
+        AvailableTripDetailController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.set(selectedTrip);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+
+        return true;
+    } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
  
 public boolean showTripEditDialog(Trip selectedTrip) {
         try {

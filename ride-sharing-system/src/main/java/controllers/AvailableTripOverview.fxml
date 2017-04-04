@@ -28,7 +28,7 @@
                </columnResizePolicy>
             </TableView>
             <Label layoutX="14.0" layoutY="46.0" text="Available trips" />
-            <Button layoutX="14.0" layoutY="252.0" mnemonicParsing="false" text="View Trip Details" />
+            <Button layoutX="14.0" layoutY="252.0" mnemonicParsing="false" onAction="#handleViewTrip" text="View Trip Details" />
          </children>
       </Pane>
    </children>

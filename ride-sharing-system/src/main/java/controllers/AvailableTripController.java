@@ -16,7 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 
 
-public class AvailableTripController {
+public class AvailableTripController { // NO_UCD (use default)
     @FXML
     private TableView<Trip> availTripTable;
     @FXML
@@ -96,6 +96,7 @@ public class AvailableTripController {
 				}
 			}
 			availTripTable.setItems(filteredTrips);
+			availTripTable.refresh();
 		}
 		
 		
@@ -109,7 +110,7 @@ public class AvailableTripController {
     private void handleViewTrip() {
         Trip selectedTrip = availTripTable.getSelectionModel().getSelectedItem();
         if (selectedTrip != null) {
-        	//mainApp.showTripDetailsDialog(selectedTrip);
+        	mainApp.mainHelper.showTripDetails(selectedTrip);
 
         } else {
             // Nothing selected.

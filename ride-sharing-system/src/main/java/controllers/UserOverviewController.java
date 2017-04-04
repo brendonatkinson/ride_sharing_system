@@ -3,15 +3,21 @@ package controllers;
 import src.MainApp;
 import src.model.Car;
 import src.model.User;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-
-public class UserOverviewController {
+public class UserOverviewController { // NO_UCD (use default)
     @FXML
     private TableView<Car> carTable;
     @FXML
@@ -25,17 +31,9 @@ public class UserOverviewController {
     // Reference to the main application.
     private MainApp mainApp;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
     public UserOverviewController() {
     }
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
@@ -43,10 +41,6 @@ public class UserOverviewController {
         platesColumn.setCellValueFactory(cellData -> cellData.getValue().getLicensePlateProperty());
     }
 
-    
-    /**
-     * Called when the user clicks on the delete button.
-     */
     @FXML
     private void handleDeleteCar() {
         int selectedIndex = carTable.getSelectionModel().getSelectedIndex();
@@ -66,10 +60,6 @@ public class UserOverviewController {
         }
     }
     
-    /**
-     * Called when the user clicks the new button. Opens a dialog to edit
-     * details for a new person.
-     */
     @FXML
     private void handleNewCar() {
         Car tempCar = new Car("Sedan", "", "", "", 0, 0);
@@ -79,10 +69,6 @@ public class UserOverviewController {
         }
     }
 
-    /**
-     * Called when the user clicks the edit button. Opens a dialog to edit
-     * details for the selected person.
-     */
     @FXML
     private void handleEditCar() {
         Car selectedCar = carTable.getSelectionModel().getSelectedItem();
@@ -101,11 +87,42 @@ public class UserOverviewController {
         }
     }
     
-    /**
-     * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
-     */
+    @FXML
+    private void handleSaveUser() {
+    	try {
+            FileOutputStream fileOut =
+            new FileOutputStream("test.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(mainApp.getCurrUserProfile());
+            out.close();
+            fileOut.close();
+            System.out.printf("Serialized data is saved in /tmp/employee.ser");
+         }catch(IOException i) {
+            i.printStackTrace();
+         }
+    }
+    
+    @FXML
+    private void handleNewUser() {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation");
+    	alert.setHeaderText("Creating a new User Profile");
+    	alert.setContentText("Are you sure you want to do this? It will remove all routes and trips.");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK){
+    		clearDialogFields();
+    	    //mainApp.getCurrUserProfile().resetProfile();
+    	} else {
+    	    // ... user chose CANCEL or closed the dialog
+    	}
+    }
+    
+    private void clearDialogFields() {
+    	carTable.getItems().clear();
+        userName.setText("");
+        mainApp.getCurrUserProfile().resetProfile();
+	}
+
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 

@@ -1,13 +1,19 @@
 package controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -40,12 +46,18 @@ public class TripEditController {
 	@FXML
 	private ChoiceBox<Route> selectedRoute;
 	@FXML
+	private ChoiceBox<String> dirChooser;
+	@FXML
 	private ChoiceBox<Car> carToUse;
+	@FXML
+	private ChoiceBox<Integer> numAvailSeats;
 	@FXML
 	private DatePicker expiryDate;
 
 	private Stage dialogStage;
 	private Trip tripToEdit;
+	private boolean okClicked;
+	private ObservableList<StopTuple<StopPoint, String>> observableStops;
 
 	/**
 	 * Initializes the controller class. This method is automatically called
@@ -76,7 +88,9 @@ public class TripEditController {
 	 */
 	public void setTrip(Trip trip, Profile currUser) {
 		this.tripToEdit = trip;
-		populateTable();
+		if (tripToEdit.getRoute() != null){
+			populateTable();
+		}
 
 		if (tripToEdit.getRecurrency()){
 			recurrDays.setText(tripToEdit.getRecurrDays());
@@ -86,6 +100,13 @@ public class TripEditController {
 		}
 		if (tripToEdit.getRoute() != null){
 			selectedRoute.setValue(tripToEdit.getRoute());}
+		dirChooser.setItems(FXCollections.observableArrayList("To UC", "From UC"));
+		dirChooser.setValue(tripToEdit.getTripDirection().get());
+		recurringCheck.setOnAction((event) -> {
+			recurrDays.setDisable(false);
+			expiryDate.setDisable(false);	
+		});
+		
 		selectedRoute.setItems(currUser.getUserRoutes());
 		selectedRoute.setConverter(new StringConverter<Route>() {
 			@Override
@@ -129,14 +150,26 @@ public class TripEditController {
 			}
 
 		});
+		
+		carToUse.setOnAction((event) -> {
+			//Integer numSeats = carToUse.getSelectionModel().getSelectedItem().getNumSeats();
+			//System.out.println(numSeats);
+			List<Integer> range = IntStream.range(0, 5).boxed().collect(Collectors.toList());
+			ObservableList<Integer> observedNums = FXCollections.observableArrayList(range);
+			numAvailSeats.setItems(observedNums);	
+		});
+		
 		if (tripToEdit.getCar() != null){
 			carToUse.setValue(tripToEdit.getCar());
+			List<Integer> range = IntStream.range(0, tripToEdit.getCar().getNumSeats()).boxed().collect(Collectors.toList());
+			ObservableList<Integer> observedNums =FXCollections.observableArrayList(range);
+			numAvailSeats.setItems(observedNums);
 		}
 
 	}
 
 	private void populateTable() {
-		ObservableList<StopTuple<StopPoint, String>> observableStops = FXCollections.observableArrayList();
+		observableStops = FXCollections.observableArrayList();
 
 		if (!this.tripToEdit.getStops().isEmpty()){
 			for (Map.Entry<StopPoint, String> entry : this.tripToEdit.getStops().entrySet())
@@ -149,7 +182,7 @@ public class TripEditController {
 			for (StopPoint stop: this.tripToEdit.getRoute().getStops()) {
 				observableStops.add(new StopTuple<StopPoint, String>(stop, ""));
 			}
-			
+
 		}
 
 		stopTable.setItems((ObservableList<StopTuple<StopPoint, String>>)observableStops);
@@ -172,32 +205,48 @@ public class TripEditController {
 		stopTable.refresh();
 	}
 
-
-	/**
-	 * Called when the user clicks ok.
-	 */
 	@FXML
 	private void handleOk() {
 		tripToEdit.setTripShared(sharedCheck.isSelected());
+
+		tripToEdit.setCar(carToUse.getSelectionModel().getSelectedItem());
+		if (!recurrDays.getText().isEmpty()){
+			tripToEdit.setRecurrDays(recurrDays.getText());
+		}
+		tripToEdit.setExpiryDate(expiryDate.getValue());
+		tripToEdit.setRoute(selectedRoute.getSelectionModel().getSelectedItem());
+		tripToEdit.setRecurrency(recurringCheck.isSelected());
+		tripToEdit.setTripDirection(dirChooser.getSelectionModel().getSelectedItem());
+		tripToEdit.getCar().setAvailSeats(numAvailSeats.getValue());
+
+		for (StopTuple<StopPoint, String> stops: observableStops){
+			if (!tripToEdit.getStops().containsValue(stops.getStop())){
+				tripToEdit.addStop(stops.getStop(), stops.getTime());
+		}
+		}
+
+
+		okClicked = true;
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText("Trip creation success");
+		alert.setContentText("The trip was successfully created.");
+
+		alert.showAndWait();
 		dialogStage.close();
+
 	}
-
-
-	/**
-	 * Validates the user input in the text fields.
-	 * @param items 
-	 * 
-	 * @return true if the input is valid
-	 */
-	/*private boolean isInputValid(String items) {
-
-
+		/**
+		 * Validates the user input in the text fields.
+		 * @param items 
+		 * 
+		 * @return true if the input is valid
+		 */
+		/*private boolean isInputValid(String items) {
 		String errorMessage = "";
-
 		if (!items.matches("\\d{1,5}[\\s\\w+]+")) {
 			errorMessage += "Not a valid address!\n"; 
 		}
-
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
@@ -207,35 +256,11 @@ public class TripEditController {
 			alert.setTitle("Invalid Fields");
 			alert.setHeaderText("Please correct invalid fields");
 			alert.setContentText(errorMessage);
-
 			alert.showAndWait();
-
 			return false;
 		}
-
 	}*/
 
-	/**
-	 * Called when the user clicks on the delete button.
-	 */
-	/*@FXML
-	private void handleDeleteStop() {
-		int selectedIndex = stopTable.getSelectionModel().getSelectedIndex();
-
-		if (selectedIndex >= 0) {
-			StopPoint stopToDel = stopTable.getItems().get(selectedIndex);
-			route.removeStop(stopToDel);
-		} else {
-			// Nothing selected.
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("No Selection");
-			alert.setHeaderText("No Car Selected");
-			alert.setContentText("Please select a car in the table.");
-
-			alert.showAndWait();
-		}
-	}*/
 }
 
 class StopTuple<X, Y> { 
@@ -255,6 +280,3 @@ class StopTuple<X, Y> {
 		this.time = time;
 	}
 } 
-
-
-

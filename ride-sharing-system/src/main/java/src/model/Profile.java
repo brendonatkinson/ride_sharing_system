@@ -1,6 +1,5 @@
 package src.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -8,12 +7,8 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Profile implements Serializable {
+public class Profile {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private User currUser;
 	private ObservableList<Route> observableRoutes;
 	private ObservableList<Trip> observableTrips;
@@ -60,5 +55,13 @@ public class Profile implements Serializable {
 	
 	public void removeTrip(Trip tripToDel) {
 		this.observableTrips.remove(tripToDel);
+	}
+
+	public void resetProfile() {
+		this.observableRoutes.clear();
+		this.observableTrips.clear();
+		this.currUser = null;
+		this.stopContainer.clear();
+		
 	}
 }

@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 
 
-public class TripController {
+public class TripController { // NO_UCD (use default)
     @FXML
     private TableView<Trip> tripTable;
     @FXML
@@ -56,11 +56,15 @@ public class TripController {
      */
     @FXML
     private void handleNewTrip() {
-        Trip tempTrip = new Trip(null, null, null, null, null);
+        Trip tempTrip = new Trip(currUser.getCurrUser(), null, null, null, false);
+        if (mainApp.getCurrUserProfile().getUserRoutes().isEmpty()){
+        	System.out.println("Error Diag");
+        } else {
         boolean okClicked = mainApp.mainHelper.showTripEditDialog(tempTrip);
         if (okClicked) {
-            currUser.addTrip(tempTrip);
-            }
+        	MainApp.addTrip(tempTrip);
+        	currUser.addTrip(tempTrip);
+            }}
     }
 
     @FXML
@@ -68,6 +72,7 @@ public class TripController {
         Trip selectedTrip = tripTable.getSelectionModel().getSelectedItem();
         if (selectedTrip != null) {
         	mainApp.mainHelper.showTripEditDialog(selectedTrip);
+        	tripTable.refresh();
 
         } else {
             // Nothing selected.
@@ -80,6 +85,28 @@ public class TripController {
             alert.showAndWait();
         }
     }
+    
+	/**
+	 * Called when the user clicks on the delete button.
+	 */
+	@FXML
+	private void handleDeleteTrip() {
+		int selectedIndex = tripTable.getSelectionModel().getSelectedIndex();
+
+		if (selectedIndex >= 0) {
+			Trip tripToDel = tripTable.getItems().get(selectedIndex);
+			mainApp.getCurrUserProfile().removeTrip(tripToDel);
+		} else {
+			// Nothing selected.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("No Selection");
+			alert.setHeaderText("No Stop Selected");
+			alert.setContentText("Please select a stop to remove.");
+
+			alert.showAndWait();
+		}
+	}
     
     /**
      * Is called by the main application to give a reference back to itself.

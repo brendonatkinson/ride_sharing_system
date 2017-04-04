@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import src.model.Car;
 
 
-public class CarEditController {
+public class CarEditController { // NO_UCD (use default)
 
     @FXML
     private TextField modelField;

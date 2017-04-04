@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 
 
-public class RouteController {
+public class RouteController { // NO_UCD (use default)
     @FXML
     private TableView<Route> routeTable;
     @FXML
@@ -58,7 +58,6 @@ public class RouteController {
             alert.setTitle("No Selection");
             alert.setHeaderText("No Route Selected");
             alert.setContentText("Please select a route in the table.");
-
             alert.showAndWait();
         }
     }
@@ -85,6 +84,8 @@ public class RouteController {
         Route selectedRoute = routeTable.getSelectionModel().getSelectedItem();
         if (selectedRoute != null) {
         	mainApp.mainHelper.showRouteEditDialog(selectedRoute);
+            routeTable.refresh();
+        	
 
         } else {
             // Nothing selected.
