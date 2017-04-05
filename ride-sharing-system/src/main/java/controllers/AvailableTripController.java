@@ -83,7 +83,7 @@ public class AvailableTripController { /** The avail trip table. */
 		timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStops().get(selectedStop)));
 		seatsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAvailSeats()).asObject());
 		dirChooser.setItems(FXCollections.observableArrayList("To UC", "From UC"));
-		stopChooser.setItems(MainApp.getStopPoints());
+
 		stopChooser.setConverter(new StringConverter<StopPoint>() {
 			@Override
 			public String toString(StopPoint stop) {
@@ -121,6 +121,7 @@ public class AvailableTripController { /** The avail trip table. */
 	 * Populate table.
 	 */
 	private void populateTable() {
+		stopChooser.setItems(MainApp.getStopPoints());
 		if (direction != null && selectedStop != null){
 			ObservableList<Trip> filteredTrips = FXCollections.observableArrayList();
 			for (Trip trip: MainApp.getCurrTrips()){

@@ -1,9 +1,5 @@
 package src.model;
 
-
-import java.util.HashSet;
-import java.util.Set;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +16,7 @@ public class Route {
 	private StringProperty name;
 
 	/** The stop points. */
-	private Set<StopPoint> stopPoints; 
+	private ObservableList<StopPoint> stopPoints; 
 
 	/**
 	 * Instantiates a new route.
@@ -29,7 +25,7 @@ public class Route {
 	 */
 	public Route(String routename) {
 		this.name = new SimpleStringProperty(routename);
-		this.stopPoints = new HashSet<StopPoint>();
+		this.stopPoints = FXCollections.observableArrayList();
 	}
 
 	/**
@@ -50,7 +46,7 @@ public class Route {
 	 * @return the stops
 	 */
 	public ObservableList<StopPoint> getStops() {
-		return FXCollections.observableArrayList(stopPoints);
+		return stopPoints;
 	}
 
 	/**
@@ -59,11 +55,11 @@ public class Route {
 	 * @return the stops string
 	 */
 	public StringProperty getStopsString() {
-		String concat = this.name.get() + ": ";
+		String concat = "";
 		for (StopPoint stop: stopPoints) {
 			concat += stop.getAddress() + ", ";
 		}
-		return new SimpleStringProperty(concat);
+		return new SimpleStringProperty(concat.substring(0, concat.length()-2));
 
 	}
 
