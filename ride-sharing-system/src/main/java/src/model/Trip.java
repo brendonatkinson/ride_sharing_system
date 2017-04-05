@@ -1,3 +1,7 @@
+/*
+ * bja90
+ * 46376139
+ */
 package src.model;
 
 import java.time.LocalDate;

@@ -1,5 +1,8 @@
+/*
+ * bja90
+ * 46376139
+ */
 package src.model;
-
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
