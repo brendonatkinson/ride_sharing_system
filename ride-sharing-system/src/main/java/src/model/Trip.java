@@ -1,6 +1,8 @@
 package src.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,34 +16,43 @@ import javafx.beans.property.StringProperty;
  * The Class Trip.
  */
 public class Trip {
-	
+
 	/** The stop times. */
 	private Map<StopPoint,String> stopTimes;
-	
+
 	/** The route. */
 	private Route route;
-	
+
 	/** The trip direction. */
 	private StringProperty tripDirection;
-	
+
 	/** The recurrency. */
 	private BooleanProperty recurrency;
-	
+
 	/** The recurr days. */
 	private StringProperty recurrDays;
-	
+
 	/** The expiry date. */
 	private LocalDate expiryDate;
-	
+
 	/** The creating user. */
 	private User creatingUser;
-	
+
 	/** The ride to be used. */
 	private Car rideToBeUsed;
-	
+
 	/** The trip shared. */
 	private BooleanProperty tripShared;
-	
+
+	/** The booked users. */
+	private Collection<User> bookedUsers;
+
+	/** The avail seats. */
+	private Integer availSeats;
+
+	/** The day of trip. */
+	private LocalDate dayOfTrip;
+
 	/**
 	 * Instantiates a new trip.
 	 *
@@ -61,8 +72,30 @@ public class Trip {
 		this.tripShared = new SimpleBooleanProperty(false);
 		this.recurrDays = new SimpleStringProperty();
 		this.expiryDate = LocalDate.now();
+		this.bookedUsers = new ArrayList<User>();
+		this.dayOfTrip = LocalDate.now();
+		this.availSeats = new Integer(0);  //No seats available as default
 	}
-	
+
+
+	/**
+	 * Gets the avail seats.
+	 *
+	 * @return the avail seats
+	 */
+	public Integer getAvailSeats() {
+		return availSeats;
+	}
+
+	/**
+	 * Sets the avail seats.
+	 *
+	 * @param availSeats the new avail seats
+	 */
+	public void setAvailSeats(Integer availSeats) {
+		this.availSeats = availSeats;
+	}
+
 	/**
 	 * Adds the stop.
 	 *
@@ -72,7 +105,7 @@ public class Trip {
 	public void addStop(StopPoint stop, String time){
 		stopTimes.put(stop, time);
 	}
-	
+
 	/**
 	 * Gets the stops.
 	 *
@@ -108,7 +141,7 @@ public class Trip {
 	public void setTripDirection(String direction) {
 		this.tripDirection.set(direction);
 	}
-	
+
 
 	/**
 	 * Gets the recurrency.
@@ -118,7 +151,7 @@ public class Trip {
 	public Boolean getRecurrency() {
 		return recurrency.get();
 	}
-	
+
 	/**
 	 * Gets the recurrency property.
 	 *
@@ -181,7 +214,7 @@ public class Trip {
 	public Boolean getTripShared() {
 		return tripShared.get();
 	}
-	
+
 	/**
 	 * Gets the trip shared property.
 	 *
@@ -217,7 +250,7 @@ public class Trip {
 	public StringProperty getRideToBeUsed() {
 		return new SimpleStringProperty(rideToBeUsed.toString());
 	}
-	
+
 	/**
 	 * Gets the car.
 	 *
@@ -226,7 +259,27 @@ public class Trip {
 	public Car getCar() {
 		return rideToBeUsed;
 	}
-	
+
+	/**
+	 * Gets the day of trip.
+	 *
+	 * @return the day of trip
+	 */
+	public LocalDate getDayOfTrip() {
+		return dayOfTrip;
+	}
+
+
+	/**
+	 * Sets the day of trip.
+	 *
+	 * @param dayOfTrip the new day of trip
+	 */
+	public void setDayOfTrip(LocalDate dayOfTrip) {
+		this.dayOfTrip = dayOfTrip;
+	}
+
+
 	/**
 	 * Sets the car.
 	 *
@@ -252,6 +305,33 @@ public class Trip {
 	 */
 	public void setRoute(Route newRoute) {
 		this.route = newRoute;
-		
+
 	}
+
+	/**
+	 * Book ride.
+	 *
+	 * @param currUser the curr user
+	 * @return the boolean
+	 */
+	public Boolean bookRide(User currUser) {
+		if (this.availSeats > 0){
+			bookedUsers.add(currUser);
+			this.availSeats -= 1;
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Gets the booked users.
+	 *
+	 * @return the booked users
+	 */
+	public Collection<User> getBookedUsers() {
+		return this.bookedUsers;
+	}
+
+
 }

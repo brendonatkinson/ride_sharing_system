@@ -8,13 +8,13 @@ import javafx.beans.property.StringProperty;
  * The Class StopPoint.
  */
 public class StopPoint {
-	
+
 	/** The number. */
 	private Integer number;
-	
+
 	/** The street. */
 	private String street;
-	
+
 	/**
 	 * Instantiates a new stop point.
 	 *
@@ -25,7 +25,7 @@ public class StopPoint {
 		this.number = stopNumber;
 		this.street = stopAddress;
 	}
-	
+
 	/**
 	 * Gets the address property.
 	 *
@@ -34,7 +34,7 @@ public class StopPoint {
 	public StringProperty getAddressProperty() {
 		return new SimpleStringProperty(this.number + " " + this.street);
 	}
-	
+
 	/**
 	 * Gets the address.
 	 *
@@ -43,7 +43,7 @@ public class StopPoint {
 	public String getAddress() {
 		return (this.number + " " + this.street);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -55,7 +55,7 @@ public class StopPoint {
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -81,5 +81,5 @@ public class StopPoint {
 		return true;
 	}
 
-	
+
 }

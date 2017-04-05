@@ -39,57 +39,60 @@ public class TripEditController {
 	/** The stop table. */
 	@FXML
 	private TableView<StopTuple<StopPoint, String>> stopTable; // NO_UCD (unused code)
-	
+
 	/** The stop column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> stopColumn;
-	
+
 	/** The time column. */
 	@FXML
 	private TableColumn<StopTuple<StopPoint, String>, String> timeColumn;
-	
+
 	/** The recurr days. */
 	@FXML
 	private TextField recurrDays;
-	
+
 	/** The shared check. */
 	@FXML
 	private CheckBox sharedCheck;
-	
+
 	/** The recurring check. */
 	@FXML
 	private CheckBox recurringCheck;
-	
+
 	/** The selected route. */
 	@FXML
 	private ChoiceBox<Route> selectedRoute;
-	
+
 	/** The dir chooser. */
 	@FXML
 	private ChoiceBox<String> dirChooser;
-	
+
 	/** The car to use. */
 	@FXML
 	private ChoiceBox<Car> carToUse;
-	
+
 	/** The num avail seats. */
 	@FXML
 	private ChoiceBox<Integer> numAvailSeats;
-	
+
 	/** The expiry date. */
 	@FXML
 	private DatePicker expiryDate;
 
+	/** The trip date. */
+	@FXML
+	private DatePicker tripDate;
+
 	/** The dialog stage. */
 	private Stage dialogStage;
-	
+
 	/** The trip to edit. */
 	private Trip tripToEdit;
-	
+
 	/** The ok clicked. */
-	@SuppressWarnings("unused")
 	private boolean okClicked;
-	
+
 	/** The observable stops. */
 	private ObservableList<StopTuple<StopPoint, String>> observableStops;
 
@@ -137,6 +140,11 @@ public class TripEditController {
 			selectedRoute.setValue(tripToEdit.getRoute());}
 		dirChooser.setItems(FXCollections.observableArrayList("To UC", "From UC"));
 		dirChooser.setValue(tripToEdit.getTripDirection().get());
+		tripDate.setValue(tripToEdit.getDayOfTrip());
+		if (tripToEdit.getRecurrency()){
+			expiryDate.setValue(tripToEdit.getExpiryDate());
+		}
+
 		recurringCheck.setOnAction((event) -> {
 			recurrDays.setDisable(false);
 			expiryDate.setDisable(false);	
@@ -186,20 +194,19 @@ public class TripEditController {
 
 		});
 
-		carToUse.setOnAction((event) -> {
-			//Integer numSeats = carToUse.getSelectionModel().getSelectedItem().getNumSeats();
-			//System.out.println(numSeats);
-			List<Integer> range = IntStream.range(0, 5).boxed().collect(Collectors.toList());
-			ObservableList<Integer> observedNums = FXCollections.observableArrayList(range);
-			numAvailSeats.setItems(observedNums);	
-		});
-
 		if (tripToEdit.getCar() != null){
 			carToUse.setValue(tripToEdit.getCar());
 			List<Integer> range = IntStream.range(0, tripToEdit.getCar().getNumSeats()).boxed().collect(Collectors.toList());
 			ObservableList<Integer> observedNums =FXCollections.observableArrayList(range);
 			numAvailSeats.setItems(observedNums);
+			numAvailSeats.setValue(tripToEdit.getAvailSeats());
 		}
+		carToUse.setOnAction((event) -> {
+			Integer numSeats = carToUse.getSelectionModel().getSelectedItem().getNumSeats();
+			List<Integer> range = IntStream.range(0, numSeats).boxed().collect(Collectors.toList());
+			ObservableList<Integer> observedNums = FXCollections.observableArrayList(range);
+			numAvailSeats.setItems(observedNums);	
+		});
 
 	}
 
@@ -262,7 +269,8 @@ public class TripEditController {
 			tripToEdit.setRoute(selectedRoute.getSelectionModel().getSelectedItem());
 			tripToEdit.setRecurrency(recurringCheck.isSelected());
 			tripToEdit.setTripDirection(dirChooser.getSelectionModel().getSelectedItem());
-			tripToEdit.getCar().setAvailSeats(numAvailSeats.getValue());
+			tripToEdit.setAvailSeats(numAvailSeats.getValue());
+			tripToEdit.setDayOfTrip(tripDate.getValue());
 
 			for (StopTuple<StopPoint, String> stops: observableStops){
 				if (!tripToEdit.getStops().containsValue(stops.getStop())){
@@ -281,7 +289,7 @@ public class TripEditController {
 		}
 
 	}
-	
+
 	/**
 	 * Validates the user input in the text fields.
 	 *
@@ -329,6 +337,15 @@ public class TripEditController {
 			alert.showAndWait();
 			return false;
 		}
+	}
+
+	/**
+	 * Checks if is ok clicked.
+	 *
+	 * @return true, if is ok clicked
+	 */
+	public boolean isOkClicked() {
+		return okClicked ;
 	}
 
 }

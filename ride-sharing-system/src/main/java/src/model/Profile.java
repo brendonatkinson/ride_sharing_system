@@ -12,19 +12,19 @@ import javafx.collections.ObservableList;
  * The Class Profile.
  */
 public class Profile {
-	
+
 	/** The curr user. */
 	private User currUser;
-	
+
 	/** The observable routes. */
 	private ObservableList<Route> observableRoutes;
-	
+
 	/** The observable trips. */
 	private ObservableList<Trip> observableTrips;
-	
+
 	/** The stop container. */
 	private Set<StopPoint> stopContainer;
-	
+
 	/**
 	 * Instantiates a new profile.
 	 *
@@ -36,7 +36,7 @@ public class Profile {
 		observableTrips = FXCollections.observableArrayList();
 		stopContainer = new HashSet<StopPoint>();
 	}
-	
+
 	/**
 	 * Gets the user routes.
 	 *
@@ -55,7 +55,7 @@ public class Profile {
 	public Boolean addRoute(Route userRoute) {
 		return this.observableRoutes.add(userRoute);
 	}
-	
+
 	/**
 	 * Removes the route.
 	 *
@@ -82,7 +82,7 @@ public class Profile {
 	public User getCurrUser() {
 		return currUser;
 	}
-	
+
 	/**
 	 * Sets the curr user.
 	 *
@@ -107,9 +107,9 @@ public class Profile {
 	 * @param newTrip the new trip
 	 */
 	public void addTrip(Trip newTrip) {
-		 this.observableTrips.add(newTrip);
+		this.observableTrips.add(newTrip);
 	}
-	
+
 	/**
 	 * Removes the trip.
 	 *
@@ -127,6 +127,6 @@ public class Profile {
 		this.observableTrips.clear();
 		this.currUser = null;
 		this.stopContainer.clear();
-		
+
 	}
 }

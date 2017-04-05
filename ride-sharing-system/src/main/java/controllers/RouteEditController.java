@@ -25,26 +25,26 @@ import src.model.StopPoint;
 public class RouteEditController { // NO_UCD (use default)
 
 	/** The name field. */
- @FXML
+	@FXML
 	private TextField nameField;
-	
+
 	/** The stop table. */
 	@FXML
 	private TableView<StopPoint> stopTable;
-	
+
 	/** The stop column. */
 	@FXML
 	private TableColumn<StopPoint, String> stopColumn;
-	
+
 	/** The dialog stage. */
 	private Stage dialogStage;
-	
+
 	/** The route. */
 	private Route route;
-	
+
 	/** The main app. */
 	private MainApp mainApp;
-	
+
 	/** The ok clicked. */
 	private boolean okClicked = false;
 
@@ -77,15 +77,15 @@ public class RouteEditController { // NO_UCD (use default)
 		nameField.setText(route.getNameProperty().get());
 	}
 
-	 /**
- 	 * Returns true if the user clicked OK, false otherwise.
- 	 *
- 	 * @return true, if is ok clicked
- 	 */
-    public boolean isOkClicked() {
-        return okClicked ;
-    }
-	
+	/**
+	 * Returns true if the user clicked OK, false otherwise.
+	 *
+	 * @return true, if is ok clicked
+	 */
+	public boolean isOkClicked() {
+		return okClicked ;
+	}
+
 	/**
 	 * Called when the user clicks ok.
 	 */
@@ -96,7 +96,7 @@ public class RouteEditController { // NO_UCD (use default)
 			okClicked = true;
 			dialogStage.close();
 		}
-		
+
 	}
 
 
@@ -111,14 +111,14 @@ public class RouteEditController { // NO_UCD (use default)
 		if (nameField.getText() != null && !nameField.getText().trim().isEmpty()){
 			nameFlag = true;
 		} else{
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Error Dialog");
-		alert.setHeaderText("No Name");
-		alert.setContentText("Please enter a Route name.");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText("No Name");
+			alert.setContentText("Please enter a Route name.");
 
-		alert.showAndWait();
+			alert.showAndWait();
 		}
-		
+
 		if (!stopTable.getItems().isEmpty()){
 			stopsFlag = true;
 		} else {

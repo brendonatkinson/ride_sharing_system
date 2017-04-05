@@ -1,6 +1,9 @@
 package src.model;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -12,12 +15,12 @@ import src.MainApp;
  * The Class Route.
  */
 public class Route {
-	
+
 	/** The name. */
 	private StringProperty name;
-	
+
 	/** The stop points. */
-	private ObservableList<StopPoint> stopPoints;
+	private Set<StopPoint> stopPoints; 
 
 	/**
 	 * Instantiates a new route.
@@ -26,43 +29,44 @@ public class Route {
 	 */
 	public Route(String routename) {
 		this.name = new SimpleStringProperty(routename);
-		this.stopPoints = FXCollections.observableArrayList();
+		this.stopPoints = new HashSet<StopPoint>();
 	}
 
 	/**
-	 * Adds the.
+	 * Adds a new stop.
 	 *
 	 * @param stop the stop
 	 */
 	public void add(StopPoint stop) {
-		MainApp.addStopPoint(stop);
-		stopPoints.add(stop);
+		if (MainApp.addStopPoint(stop)){
+			stopPoints.add(stop);
+		}
 	}
 
-	
+
 	/**
 	 * Gets the stops.
 	 *
 	 * @return the stops
 	 */
 	public ObservableList<StopPoint> getStops() {
-        return stopPoints;
-    }
-	
+		return FXCollections.observableArrayList(stopPoints);
+	}
+
 	/**
 	 * Gets the stops string.
 	 *
 	 * @return the stops string
 	 */
 	public StringProperty getStopsString() {
-		String concat = "";
+		String concat = this.name.get() + ": ";
 		for (StopPoint stop: stopPoints) {
 			concat += stop.getAddress() + ", ";
-			}
+		}
 		return new SimpleStringProperty(concat);
 
 	}
-	
+
 	/**
 	 * Gets the name property.
 	 *
@@ -80,7 +84,7 @@ public class Route {
 	public void removeStop(StopPoint stopToDel) {
 		this.stopPoints.remove(stopToDel);
 		MainApp.removeStopPoint(stopToDel);
-		
+
 	}
 
 	/**
@@ -90,7 +94,7 @@ public class Route {
 	 */
 	public void setName(String text) {
 		this.name.set(text);
-		
+
 	}
-	
+
 }

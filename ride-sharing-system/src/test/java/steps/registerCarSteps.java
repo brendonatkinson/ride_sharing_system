@@ -8,27 +8,31 @@ import src.model.User;
 
 import static org.junit.Assert.*;
 
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
 public class registerCarSteps {
 	
-	public User test = new User("Peter", true);
-	public Car newcar = new Car("Sedan", "Honda", "Blue", "FLZ111", 1997, 4);
-
+	@Mock
+	Car testCar = Mockito.mock(Car.class);
+	public User testUser = new User("Peter", true);
 	
 	@Given("^I am a registered user$")
 	public void i_am_a_registered_user() throws Throwable {
-	    assertEquals("User name is Peter", test.getName(), "Peter");
+	    assertEquals("User name is Peter", testUser.getName(), "Peter");
 	}
 
 	@When("^I register a new car$")
 	public void i_register_a_new_car() throws Throwable {
-	    test.addCar(newcar);
-	    assertNotNull(test.getCars());
+	    testUser.addCar(testCar);
+	    assertEquals(testUser.getCars().size(), 1);
 	}
 
 	@Then("^It is associated with my account$")
 	public void it_is_associated_with_my_account() throws Throwable {
-		String plate = test.getCars().get(0).getLicensePlate();
-	    assertEquals(plate, newcar.getLicensePlate());
+		Mockito.when(testCar.getLicensePlate()).thenReturn("ABC123");
+		String plate = testUser.getCars().get(0).getLicensePlate();
+	    assertEquals(plate, testCar.getLicensePlate());
 	}
 
 }

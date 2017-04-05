@@ -12,6 +12,7 @@ import javafx.stage.Window;
 import src.MainApp;
 import src.model.Car;
 import src.model.Route;
+import src.model.StopPoint;
 import src.model.Trip;
 
 // TODO: Auto-generated Javadoc
@@ -19,13 +20,13 @@ import src.model.Trip;
  * The Class MainController.
  */
 public class MainController {
-	
+
 	/** The main app. */
 	private MainApp mainApp;
-	
+
 	/** The dialog stage. */
 	private Stage dialogStage;
-	
+
 	/** The primary stage. */
 	private Window primaryStage;
 
@@ -51,7 +52,6 @@ public class MainController {
 			CarEditController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setCar(car);
-
 
 			// Show the dialog and wait until the user closes it
 			dialogStage.showAndWait();
@@ -86,7 +86,7 @@ public class MainController {
 			controller.setRoute(selectedRoute);
 			dialogStage.showAndWait();
 
-			return true;
+			return controller.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -116,7 +116,7 @@ public class MainController {
 			controller.set(selectedTrip, mainApp);
 			dialogStage.showAndWait();
 
-			return true;
+			return controller.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -146,7 +146,7 @@ public class MainController {
 			controller.setTrip(selectedTrip, mainApp.getCurrUserProfile());
 			dialogStage.showAndWait();
 
-			return true;
+			return controller.isOkClicked();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -239,6 +239,41 @@ public class MainController {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+
+	}
+
+	/**
+	 * Show stop point search.
+	 *
+	 * @param selectedStop the selected stop
+	 * @return the stop point
+	 */
+	public StopPoint showStopPointSearch(StopPoint selectedStop) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/controllers/StopSearchDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Edit Car");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			StopSearchController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setStop(selectedStop);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.getStop();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 
 	}
 }

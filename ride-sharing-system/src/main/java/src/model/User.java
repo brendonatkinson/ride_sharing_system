@@ -16,10 +16,10 @@ public class User {
 
 	/** The name. */
 	private StringProperty name;
-	
+
 	/** The role. */
 	private BooleanProperty role;
-	
+
 	/** The observable cars. */
 	private ObservableList<Car> observableCars = FXCollections.observableArrayList();
 
@@ -44,6 +44,15 @@ public class User {
 		this.role.set(role);
 	}
 
+	/**
+	 * Returns the drivers role.
+	 *
+	 * @return the role
+	 */
+	public Boolean getRole() {
+		return this.role.get();
+	}
+
 
 	/**
 	 * Gets the name.
@@ -53,7 +62,7 @@ public class User {
 	public String getName() {
 		return name.get();
 	}
-	
+
 	/**
 	 * Gets the name property.
 	 *
@@ -79,8 +88,8 @@ public class User {
 	 * @return the cars
 	 */
 	public ObservableList<Car> getCars() {
-        return observableCars;
-    }
+		return observableCars;
+	}
 
 
 	/**
@@ -90,5 +99,16 @@ public class User {
 	 */
 	public void removeCar(Car carToDel) {
 		observableCars.remove(carToDel);
+	}
+
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param text the new name
+	 */
+	public void setName(String text) {
+		this.name.set(text);
+
 	}
 }

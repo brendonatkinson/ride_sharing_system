@@ -8,49 +8,53 @@ import src.model.Route;
 import src.model.StopPoint;
 import src.model.Trip;
 import src.model.User;
-
-import java.util.Iterator;
-
+import java.util.ArrayList;
+import java.util.Collection;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import static org.junit.Assert.*;
 
 public class addTripSteps {
 	
-	public User user = new User("James", true);
-	public Car newcar = new Car("Sedan", "Honda", "Blue", "FLZ111", 1997, 4);
-	public StopPoint stop1 = new StopPoint(15, "Creyke Road");
-	public StopPoint stop2 = new StopPoint(12, "Main St");
-	public StopPoint stop3 = new StopPoint(999, "Grassmere St");
-	public Route triproute = new Route("NewRoute");
-	public Trip newtrip = new Trip(user, newcar, triproute, "To UC", false);
+	@Mock
+	User testUser = Mockito.mock(User.class);
+	Car testCar = Mockito.mock(Car.class);
+	StopPoint testStop1 = Mockito.mock(StopPoint.class);
+	StopPoint testStop2 = Mockito.mock(StopPoint.class);
+	StopPoint testStop3 = Mockito.mock(StopPoint.class);
+	Route testRoute = Mockito.mock(Route.class);
+	
+	Collection<StopPoint> stops;
+	Trip testTrip = new Trip(testUser, testCar, testRoute, "To UC", false);
 
 	@When("^I select a route I can add stop times$")
 	public void i_select_a_route_I_can_add_stop_times() throws Throwable {
-		triproute.add(stop1);
-		triproute.add(stop2);
-		triproute.add(stop3);
+		stops = new ArrayList<StopPoint>();
+		stops.add(testStop1);
+		stops.add(testStop2);
+		stops.add(testStop3);
 		
-		Iterator<StopPoint> iter = triproute.getStops().iterator();
-	    while (iter.hasNext()){
-	    	newtrip.addStop(iter.next(), "11:00");
+		for (StopPoint stop: stops){
+	    	testTrip.addStop(stop, "11:00");
 	    }
 	    
-	    assertNotNull(newtrip.getRoute());
+	    assertEquals(testTrip.getStops().size(), 3);
 	}
 
 
 	@When("^Specify the direction of travel$")
 	public void specify_the_direction_of_travel() throws Throwable {
-		assertEquals(newtrip.getTripDirection(),"Uni ->"); 
+		assertEquals(testTrip.getTripDirection().get(),"To UC"); 
 	}
 
 	@When("^Indicate recurrency$")
 	public void indicate_recurrency() throws Throwable {
-	    assertFalse(newtrip.getRecurrency());
+	    assertFalse(testTrip.getRecurrency());
 	}
 
 	@Then("^The trip is created but not shared$")
 	public void the_trip_is_created_but_not_shared() throws Throwable {
-	    assertFalse(newtrip.getTripShared());
+	    assertFalse(testTrip.getTripShared());
 	}
 
 }

@@ -10,13 +10,13 @@ import src.model.StopPoint;
  * @param <Y> the generic type
  */
 public class StopTuple<X, Y> { 
-	
+
 	/** The stop. */
 	private StopPoint stop; 
-	
+
 	/** The time. */
 	private String time; 
-	
+
 	/**
 	 * Instantiates a new stop tuple.
 	 *
@@ -27,7 +27,7 @@ public class StopTuple<X, Y> {
 		this.stop = stop; 
 		this.time = time; 
 	} 
-	
+
 	/**
 	 * Gets the stop.
 	 *
@@ -36,7 +36,7 @@ public class StopTuple<X, Y> {
 	public StopPoint getStop(){
 		return stop;
 	}
-	
+
 	/**
 	 * Gets the time.
 	 *
@@ -45,7 +45,7 @@ public class StopTuple<X, Y> {
 	public String getTime(){
 		return time;
 	}
-	
+
 	/**
 	 * Sets the time.
 	 *

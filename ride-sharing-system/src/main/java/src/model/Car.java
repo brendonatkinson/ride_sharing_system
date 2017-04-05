@@ -1,7 +1,5 @@
 package src.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +11,7 @@ import javafx.beans.property.StringProperty;
  */
 public class Car
 {
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -24,28 +22,24 @@ public class Car
 
 	/** The car type. */
 	private StringProperty carType;
-	
+
 	/** The model. */
 	private StringProperty model;
-	
+
 	/** The car colour. */
 	private StringProperty carColour;
-	
+
 	/** The license plate. */
 	private StringProperty licensePlate;
-	
+
 	/** The car year. */
 	private IntegerProperty carYear;
-	
+
 	/** The num seats. */
 	private IntegerProperty numSeats;
-	
-	/** The avail seats. */
-	private IntegerProperty availSeats;
-	
-	/** The booked users. */
-	private Collection<User> bookedUsers;
-	
+
+
+
 	/**
 	 * Instantiates a new car.
 	 *
@@ -63,8 +57,6 @@ public class Car
 		licensePlate = new SimpleStringProperty(plate);
 		carYear =  new SimpleIntegerProperty(year);
 		numSeats =  new SimpleIntegerProperty(seats);
-		availSeats = new SimpleIntegerProperty(0);  //No seats available as default
-		bookedUsers = new ArrayList<User>();
 	}
 
 	/**
@@ -75,7 +67,7 @@ public class Car
 	public void setModel(String model) {
 		this.model.set(model);
 	}
-	
+
 	/**
 	 * Sets the type.
 	 *
@@ -84,7 +76,7 @@ public class Car
 	public void setType(String type) {
 		this.carType.set(type);
 	}
-	
+
 	/**
 	 * Sets the colour.
 	 *
@@ -93,7 +85,7 @@ public class Car
 	public void setColour(String colour) {
 		this.carColour.set(colour);
 	}
-	
+
 	/**
 	 * Sets the plate.
 	 *
@@ -102,7 +94,7 @@ public class Car
 	public void setPlate(String plate) {
 		this.licensePlate.set(plate);
 	}
-	
+
 	/**
 	 * Sets the year.
 	 *
@@ -111,7 +103,7 @@ public class Car
 	public void setYear(Integer year) {
 		this.carYear.set(year);
 	}
-	
+
 	/**
 	 * Sets the num seats.
 	 *
@@ -128,24 +120,6 @@ public class Car
 	 */
 	public Integer getNumSeats() {
 		return numSeats.get();
-	}
-	
-	/**
-	 * Gets the avail seats.
-	 *
-	 * @return the available seats
-	 */
-	public Integer getAvailSeats() {
-		return availSeats.get();
-	}
-
-	/**
-	 * Sets the avail seats.
-	 *
-	 * @param seats the new avail seats
-	 */
-	public void setAvailSeats(Integer seats) {
-		this.availSeats.set(this.availSeats.get() + seats);
 	}
 
 	/**
@@ -165,7 +139,7 @@ public class Car
 	public StringProperty getModelProperty() {
 		return model;
 	}
-	
+
 	/**
 	 * Gets the model.
 	 *
@@ -183,7 +157,7 @@ public class Car
 	public StringProperty getLicensePlateProperty() {
 		return licensePlate;
 	}
-	
+
 	/**
 	 * Gets the license plate.
 	 *
@@ -209,17 +183,6 @@ public class Car
 	 */
 	public String getCarColour() {
 		return carColour.get();
-	}
-
-	/**
-	 * Book ride.
-	 *
-	 * @param currUser the curr user
-	 */
-	public void bookRide(User currUser) {
-		bookedUsers.add(currUser);
-		availSeats.subtract(1);
-		
 	}
 
 }

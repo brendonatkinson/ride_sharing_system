@@ -3,39 +3,57 @@ package steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import src.model.Car;
 import src.model.Route;
 import src.model.StopPoint;
 import src.model.User;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
 public class addRouteSteps {
 	
-	User user = new User("James", true);
-	StopPoint stop1;
-	StopPoint stop2;
-	StopPoint stop3;
-	Route route;
+	Route testRoute;
+	Collection<StopPoint> stops;
+	
+	@Mock
+	Car testCar = Mockito.mock(Car.class);
+	User testUser = Mockito.mock(User.class);
+	StopPoint testStop1 = Mockito.mock(StopPoint.class);
+	StopPoint testStop2 = Mockito.mock(StopPoint.class);
+	StopPoint testStop3 = Mockito.mock(StopPoint.class);
+	
 
 	@Given("^I am a driver$")
 	public void i_am_a_driver() throws Throwable {
-	    //assertTrue(user.isDriver());
+		Mockito.when(testUser.getRole()).thenReturn(true);
+	    assertTrue(testUser.getRole());
 	}
 
 	@When("^I have a collection StopPoints$")
 	public void i_have_a_collection_StopPoints() throws Throwable {
-		stop1 = new StopPoint(15, "Creyke Road");
-		stop2 = new StopPoint(12, "Main St");
-		stop3 = new StopPoint(999, "Grassmere St");
+		stops = new ArrayList<StopPoint>();
+		stops.add(testStop1);
+		stops.add(testStop2);
+		stops.add(testStop3);
+		assertEquals(stops.size(), 3);
 	}
 
 	@Then("^A route is created$")
 	public void a_route_is_created() throws Throwable {
-	    route = new Route("NewRoute");
-	    route.add(stop1);
-	    route.add(stop2);
-	    route.add(stop3);
-	    assertEquals(route.toString(), "NewRoute: 15 Creyke Road, 12 Main St, 999 Grassmere St,");
+		Mockito.when(testStop1.getAddress()).thenReturn("15 Creyke Road");
+		Mockito.when(testStop2.getAddress()).thenReturn("12 Main St");
+		Mockito.when(testStop3.getAddress()).thenReturn("999 Grassmere St");
+	    testRoute = new Route("NewRoute");
+	    for (StopPoint stops : stops){
+	    	testRoute.add(stops);
+	    }
+	    assertEquals(testRoute.getStopsString().get(), "NewRoute: 15 Creyke Road, 12 Main St, 999 Grassmere St, ");
 	}
 
 }

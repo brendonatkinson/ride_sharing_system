@@ -3,6 +3,10 @@ package controllers;
 import src.MainApp;
 import src.model.StopPoint;
 import src.model.Trip;
+
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,37 +25,37 @@ import javafx.scene.control.ChoiceBox;
  * The Class AvailableTripController.
  */
 public class AvailableTripController { /** The avail trip table. */
- // NO_UCD (use default)
+	// NO_UCD (use default)
 	@FXML
 	private TableView<Trip> availTripTable;
-	
+
 	/** The day column. */
 	@FXML
 	private TableColumn<Trip, String> dayColumn;
-	
+
 	/** The time column. */
 	@FXML
 	private TableColumn<Trip, String> timeColumn;
-	
+
 	/** The seats column. */
 	@FXML
 	private TableColumn<Trip, Integer> seatsColumn;
-	
+
 	/** The user column. */
 	@FXML
 	private TableColumn<Trip, String> userColumn;
-	
+
 	/** The dir chooser. */
 	@FXML
 	private ChoiceBox<String> dirChooser;
-	
+
 	/** The stop chooser. */
 	@FXML
 	private ChoiceBox<StopPoint> stopChooser;
 
 	/** The direction. */
 	private String direction = null;
-	
+
 	/** The selected stop. */
 	private StopPoint selectedStop = null;
 
@@ -73,9 +77,11 @@ public class AvailableTripController { /** The avail trip table. */
 	@FXML
 	private void initialize() {
 		// Initialize the person table with the two columns.
+
 		userColumn.setCellValueFactory(cellData -> cellData.getValue().getCreatingUser().getNameProperty());
+		dayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDayOfTrip().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH)));
 		timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStops().get(selectedStop)));
-		seatsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCar().getAvailSeats()).asObject());
+		seatsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAvailSeats()).asObject());
 		dirChooser.setItems(FXCollections.observableArrayList("To UC", "From UC"));
 		stopChooser.setItems(MainApp.getStopPoints());
 		stopChooser.setConverter(new StringConverter<StopPoint>() {
@@ -97,13 +103,17 @@ public class AvailableTripController { /** The avail trip table. */
 
 		// Handle Direction event.
 		dirChooser.setOnAction((event) -> {
-			direction = dirChooser.getSelectionModel().getSelectedItem();
-			populateTable();
+			if (dirChooser.getSelectionModel().getSelectedItem() != null){
+				direction = dirChooser.getSelectionModel().getSelectedItem();
+				populateTable();
+			}
 		});
 
 		stopChooser.setOnAction((event) -> {
-			selectedStop = stopChooser.getSelectionModel().getSelectedItem();
-			populateTable();
+			if (stopChooser.getSelectionModel().getSelectedItem() != null){
+				selectedStop = stopChooser.getSelectionModel().getSelectedItem();
+				populateTable();
+			}
 		});
 	}
 
@@ -114,7 +124,7 @@ public class AvailableTripController { /** The avail trip table. */
 		if (direction != null && selectedStop != null){
 			ObservableList<Trip> filteredTrips = FXCollections.observableArrayList();
 			for (Trip trip: MainApp.getCurrTrips()){
-				if (trip.getTripDirection().get().equals(direction) && trip.getStops().containsKey(selectedStop) && trip.getCar().getAvailSeats() > 0){
+				if (trip.getTripDirection().get().equals(direction) && trip.getStops().containsKey(selectedStop) && trip.getAvailSeats() > 0){
 					filteredTrips.add(trip);
 				}
 			}
@@ -132,19 +142,54 @@ public class AvailableTripController { /** The avail trip table. */
 		Trip selectedTrip = availTripTable.getSelectionModel().getSelectedItem();
 		if (selectedTrip != null) {
 			mainApp.mainHelper.showTripDetails(selectedTrip);
-
+			availTripTable.refresh();
 		} else {
 			// Nothing selected.
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("No Selection");
-			alert.setHeaderText("No Route Selected");
-			alert.setContentText("Please select a route in the table.");
+			alert.setHeaderText("No Trip Selected");
+			alert.setContentText("Please select a trip in the table.");
 
 			alert.showAndWait();
 		}
 	}
 
+	/**
+	 * Handle view trip.
+	 */
+	@FXML
+	private void handleStopPointSearch() {
+		StopPoint searchedStop = null;
+		searchedStop = mainApp.mainHelper.showStopPointSearch(selectedStop);
+		if (searchedStop != null){
+			stopChooser.setValue(searchedStop);
+			selectedStop = searchedStop;
+
+			populateTable();
+		}
+	}
+
+	/**
+	 * Handle book trip.
+	 */
+	@FXML
+	private void handleBookTrip() {
+		Trip selectedTrip = availTripTable.getSelectionModel().getSelectedItem();
+		if (selectedTrip != null) {
+			selectedTrip.bookRide(mainApp.getCurrUserProfile().getCurrUser());
+			availTripTable.refresh();
+		} else {
+			// Nothing selected.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("No Selection");
+			alert.setHeaderText("No Trip Selected");
+			alert.setContentText("Please select a trip in the table.");
+
+			alert.showAndWait();
+		}
+	}
 	/**
 	 * Sets the main app.
 	 *
