@@ -4,6 +4,13 @@
  */
 package src.model;
 
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.TravelMode;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -13,11 +20,14 @@ import javafx.beans.property.StringProperty;
  */
 public class StopPoint {
 
+	private static final String API_KEY = "AIzaSyAHId9vwQ9AVrS6bnRO0_YHpTEZbOtJi8U";
 	/** The number. */
 	private Integer number;
 
 	/** The street. */
 	private String street;
+
+	private Integer distance;
 
 	/**
 	 * Instantiates a new stop point.
@@ -28,6 +38,28 @@ public class StopPoint {
 	public StopPoint(int stopNumber, String stopAddress){
 		this.number = stopNumber;
 		this.street = stopAddress;
+		this.distance = calculateDistance();
+	}
+
+	private Integer calculateDistance() {
+		GeoApiContext context = new GeoApiContext().setApiKey(API_KEY);
+		Integer dist = -1;
+	    try {
+	        DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
+	        DistanceMatrix trix = req.origins(getAddress() + ", Christchurch")
+	                .destinations("University Of Canterbury, Christchurch, New Zealand")
+	                .mode(TravelMode.DRIVING)
+	                .await();
+	        
+	        dist = (int) (trix.rows[0].elements[0].distance.inMeters);
+	        	
+	    } catch(ApiException e){
+	        System.out.println(e.getMessage());
+	    } catch(Exception e){
+	        System.out.println(e.getMessage());
+	    }
+		return dist;
+	    
 	}
 
 	/**
@@ -47,10 +79,25 @@ public class StopPoint {
 	public String getAddress() {
 		return (this.number + " " + this.street);
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+	
+	/**
+	 * Gets the address.
+	 *
+	 * @return the number
 	 */
+	public Integer getDistance() {
+		return this.distance;
+	}
+	
+	@Override
+	public String toString() {
+		return (this.number + " " + this.street);
+	}
+
+	/*
+	/* (non-Javadoc)
+	 @see java.lang.Object#hashCode()
+	 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,7 +109,7 @@ public class StopPoint {
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -83,7 +130,7 @@ public class StopPoint {
 		} else if (!street.equals(other.street))
 			return false;
 		return true;
-	}
+	}**/
 
 
 }

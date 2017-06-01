@@ -4,6 +4,7 @@
  */
 package src.model;
 
+import java.time.LocalDate;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,8 +42,14 @@ public class Car
 
 	/** The num seats. */
 	private IntegerProperty numSeats;
+	
+	private Integer performance;
+	
+	private Integer tripCost;
 
-
+	private LocalDate wofExpiry;
+	
+	private LocalDate regoExpiry;
 
 	/**
 	 * Instantiates a new car.
@@ -61,6 +68,42 @@ public class Car
 		licensePlate = new SimpleStringProperty(plate);
 		carYear =  new SimpleIntegerProperty(year);
 		numSeats =  new SimpleIntegerProperty(seats);
+		wofExpiry = LocalDate.now();
+		regoExpiry = LocalDate.now();
+		tripCost = 0;
+		performance = 0;
+	}
+
+	public Integer getPerformance() {
+		return performance;
+	}
+
+	public void setPerformance(Integer performance) {
+		this.performance = performance;
+	}
+
+	public Integer getTripCost() {
+		return tripCost;
+	}
+
+	public void setTripCost(Integer tripCost) {
+		this.tripCost = tripCost;
+	}
+
+	public LocalDate getWofExpiry() {
+		return wofExpiry;
+	}
+
+	public void setWofExpiry(LocalDate wofExpiry) {
+		this.wofExpiry = wofExpiry;
+	}
+
+	public LocalDate getRegoExpiry() {
+		return regoExpiry;
+	}
+
+	public void setRegoExpiry(LocalDate regoExpiry) {
+		this.regoExpiry = regoExpiry;
 	}
 
 	/**

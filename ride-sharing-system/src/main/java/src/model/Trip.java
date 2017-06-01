@@ -338,4 +338,15 @@ public class Trip {
 	}
 
 
+	public StringProperty getRole(Profile currUser) {
+		if (currUser.getCurrUser().equals(creatingUser)){
+			return new SimpleStringProperty("Driver");
+		} else if (bookedUsers.contains(currUser)){
+			return new SimpleStringProperty("Passenger");
+		} else {
+			return new SimpleStringProperty("None");
+		}
+	}
+
+
 }

@@ -6,11 +6,16 @@ package controllers;
 
 import src.MainApp;
 import src.model.Car;
+import src.model.DriversLicense;
+import src.model.Profile;
 import src.model.User;
+
+import java.io.IOException;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,6 +41,9 @@ public class UserOverviewController { /** The car table. */
 	/** The user name. */
 	@FXML
 	private TextField userName;
+	
+	@FXML
+	private Button editButton;
 
 	/** The curr user. */
 	private User currUser;
@@ -55,9 +63,11 @@ public class UserOverviewController { /** The car table. */
 	 */
 	@FXML
 	private void initialize() {
-		// Initialize the person table with the two columns.
-		modelColumn.setCellValueFactory(cellData -> cellData.getValue().getModelProperty());
-		platesColumn.setCellValueFactory(cellData -> cellData.getValue().getLicensePlateProperty());
+		// Add observable list data to the table
+		
+			// Initialize the person table with the two columns.
+			modelColumn.setCellValueFactory(cellData -> cellData.getValue().getModelProperty());
+			platesColumn.setCellValueFactory(cellData -> cellData.getValue().getLicensePlateProperty());
 	}
 
 	/**
@@ -115,13 +125,27 @@ public class UserOverviewController { /** The car table. */
 		}
 	}
 
+
+	/**
+	 * Handle edit car.
+	 */
+	@FXML
+	private void handleEditUser() {
+		mainApp.mainHelper.showUserEditDialog(mainApp.getCurrUserProfile());
+	}
+
 	/**
 	 * Handle save user.
 	 */
 	@FXML
 	private void handleSaveUser() {
 		if (!userName.getText().isEmpty() || userName.getText() != null){
-			mainApp.getCurrUserProfile().getCurrUser().setName(userName.getText());
+			try {
+				MainApp.save(mainApp.getCurrUserProfile());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -137,7 +161,13 @@ public class UserOverviewController { /** The car table. */
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
 			clearDialogFields();
-			//mainApp.getCurrUserProfile().resetProfile();
+			mainApp.getCurrUserProfile().resetProfile();
+			Profile tempUser = new Profile(new User("", "", "", 0, "", 0, 0, new DriversLicense("", 0)),"");
+			boolean okClicked = mainApp.mainHelper.showUserEditDialog(tempUser);
+			if (okClicked) {
+				mainApp.setCurrUser(tempUser);
+			}
+
 		}
 	}
 
@@ -146,7 +176,7 @@ public class UserOverviewController { /** The car table. */
 	 */
 	private void clearDialogFields() {
 		carTable.getItems().clear();
-		userName.setText("");
+		userName.setText(currUser.getName());
 		mainApp.getCurrUserProfile().resetProfile();
 	}
 
@@ -157,9 +187,12 @@ public class UserOverviewController { /** The car table. */
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-
-		// Add observable list data to the table
 		currUser = mainApp.getCurrUserProfile().getCurrUser();
+		if (currUser.getName().equals(""))
+		{
+			editButton.setDisable(true);
+		}
+			
 		carTable.setItems(currUser.getCars());
 		userName.setText(currUser.getName());
 	}

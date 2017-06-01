@@ -1,6 +1,5 @@
 package steps;
 
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import src.model.Car;
@@ -28,12 +27,6 @@ public class addRouteSteps {
 	StopPoint testStop2 = Mockito.mock(StopPoint.class);
 	StopPoint testStop3 = Mockito.mock(StopPoint.class);
 	
-
-	@Given("^I am a driver$")
-	public void i_am_a_driver() throws Throwable {
-		Mockito.when(testUser.getRole()).thenReturn(true);
-	    assertTrue(testUser.getRole());
-	}
 
 	@When("^I have a collection StopPoints$")
 	public void i_have_a_collection_StopPoints() throws Throwable {

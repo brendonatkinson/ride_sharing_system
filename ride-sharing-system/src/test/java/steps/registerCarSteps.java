@@ -4,6 +4,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import src.model.Car;
+import src.model.DriversLicense;
 import src.model.User;
 
 import static org.junit.Assert.*;
@@ -15,7 +16,8 @@ public class registerCarSteps {
 	
 	@Mock
 	Car testCar = Mockito.mock(Car.class);
-	public User testUser = new User("Peter", true);
+	DriversLicense lic = Mockito.mock(DriversLicense.class);
+	public User testUser = new User("Peter", null, null, null, null, null, null, lic);
 	
 	@Given("^I am a registered user$")
 	public void i_am_a_registered_user() throws Throwable {

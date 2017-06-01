@@ -4,6 +4,8 @@
  */
 package src.model;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -20,7 +22,7 @@ public class Route {
 	private StringProperty name;
 
 	/** The stop points. */
-	private ObservableList<StopPoint> stopPoints; 
+	private ArrayList<StopPoint> stopPoints; 
 
 	/**
 	 * Instantiates a new route.
@@ -29,7 +31,7 @@ public class Route {
 	 */
 	public Route(String routename) {
 		this.name = new SimpleStringProperty(routename);
-		this.stopPoints = FXCollections.observableArrayList();
+		this.stopPoints = new ArrayList<StopPoint>();
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class Route {
 	 * @return the stops
 	 */
 	public ObservableList<StopPoint> getStops() {
-		return stopPoints;
+		return FXCollections.observableArrayList(stopPoints);
 	}
 
 	/**

@@ -1,6 +1,8 @@
 package steps;
 
 
+import cucumber.api.PendingException;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import src.model.Car;
@@ -27,6 +29,12 @@ public class addTripSteps {
 	Collection<StopPoint> stops;
 	Trip testTrip = new Trip(testUser, testCar, testRoute, "To UC", false);
 
+	@Given("^I am a driver$")
+	public void i_am_a_driver() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new PendingException();
+	}
+	
 	@When("^I select a route I can add stop times$")
 	public void i_select_a_route_I_can_add_stop_times() throws Throwable {
 		stops = new ArrayList<StopPoint>();

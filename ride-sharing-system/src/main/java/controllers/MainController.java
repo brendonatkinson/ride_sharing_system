@@ -15,9 +15,11 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import src.MainApp;
 import src.model.Car;
+import src.model.Profile;
 import src.model.Route;
 import src.model.StopPoint;
 import src.model.Trip;
+import src.model.User;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -235,7 +237,26 @@ public class MainController {
 
 	}
 
+	/**
+	 * Show rides overview.
+	 *
+	 * @return the titled pane
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public TitledPane showRidesOverview() throws IOException {
 
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(MainApp.class.getResource("/controllers/RideOverview.fxml"));
+		AnchorPane rideOverview = (AnchorPane) loader.load();
+		final TitledPane tp = new TitledPane("Booked Rides", rideOverview);
+
+		// Give the controller access to the main app.
+		RideController controller = loader.getController();
+		controller.setMainApp(mainApp);
+		return tp;
+
+	}
+	
 	/**
 	 * Sets the main app.
 	 *
@@ -280,4 +301,32 @@ public class MainController {
 
 
 	}
+
+		public boolean showUserEditDialog(Profile user) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/controllers/RegisterUser.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Create/Edit User");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			UserEditController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setUser(user);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

@@ -7,6 +7,11 @@ package controllers;
 import src.MainApp;
 import src.model.Profile;
 import src.model.Trip;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -82,7 +87,7 @@ public class TripController { /** The trip table. */
 		boolean okClicked = mainApp.mainHelper.showTripEditDialog(tempTrip);
 		if (okClicked) {
 			MainApp.addTrip(tempTrip);
-			currUser.addTrip(tempTrip);
+			tripTable.setItems(FXCollections.observableArrayList(getUsersTrips()));
 		}
 	}
 
@@ -94,7 +99,7 @@ public class TripController { /** The trip table. */
 		Trip selectedTrip = tripTable.getSelectionModel().getSelectedItem();
 		if (selectedTrip != null) {
 			mainApp.mainHelper.showTripEditDialog(selectedTrip);
-			tripTable.refresh();
+			tripTable.setItems(FXCollections.observableArrayList(getUsersTrips()));
 
 		} else {
 			// Nothing selected.
@@ -118,8 +123,8 @@ public class TripController { /** The trip table. */
 
 		if (selectedIndex >= 0) {
 			Trip tripToDel = tripTable.getItems().get(selectedIndex);
-			mainApp.getCurrUserProfile().removeTrip(tripToDel);
-			tripTable.refresh();
+			MainApp.getCurrTrips().remove(tripToDel);
+			tripTable.setItems(FXCollections.observableArrayList(getUsersTrips()));
 		} else {
 			// Nothing selected.
 			Alert alert = new Alert(AlertType.WARNING);
@@ -132,6 +137,16 @@ public class TripController { /** The trip table. */
 		}
 	}
 
+	public List<Trip> getUsersTrips(){
+		ArrayList<Trip> tripsToDisplay = new ArrayList<Trip>();
+		for (Trip trip : MainApp.getCurrTrips()){
+			if (trip.getCreatingUser().equals(currUser.getCurrUser()))
+			{
+				tripsToDisplay.add(trip);
+			}
+		}
+		return tripsToDisplay;
+	}
 	/**
 	 * Is called by the main application to give a reference back to itself.
 	 *
@@ -141,7 +156,7 @@ public class TripController { /** The trip table. */
 		this.mainApp = mainApp;
 
 		// Add observable list data to the table
-		currUser = mainApp.getCurrUserProfile();
-		tripTable.setItems(currUser.getTrips());
+		//TODO
+		tripTable.setItems(FXCollections.observableArrayList(getUsersTrips()));
 	}
 }

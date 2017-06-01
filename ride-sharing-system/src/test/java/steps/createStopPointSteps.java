@@ -4,6 +4,7 @@ import cucumber.api.java.en.Given;
 //import src.MainApp;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import src.MainApp;
 import src.model.Route;
 import src.model.StopPoint;
 
@@ -19,7 +20,7 @@ public class createStopPointSteps {
 	@Given("^A street address$")
 	public void a_street_address() throws Throwable {
 		num = 12;
-	    street = "Some Street";
+	    street = "Brockworth Place";
 	}
 
 	@When("^A stop point is created$")

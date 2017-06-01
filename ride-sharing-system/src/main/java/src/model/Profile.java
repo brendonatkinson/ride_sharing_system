@@ -4,8 +4,11 @@
  */
 package src.model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -20,25 +23,29 @@ public class Profile {
 	/** The curr user. */
 	private User currUser;
 
+	private String userName;
+
+	private Integer passWord;
+
 	/** The observable routes. */
 	private ObservableList<Route> observableRoutes;
-
-	/** The observable trips. */
-	private ObservableList<Trip> observableTrips;
 
 	/** The stop container. */
 	private Set<StopPoint> stopContainer;
 
+	private List<String> notifications;
 	/**
 	 * Instantiates a new profile.
 	 *
 	 * @param newUser the new user
 	 */
-	public Profile(User newUser){
+	public Profile(User newUser, String pw){
+		userName = newUser.getUniversityID().toString();
+		passWord = pw.hashCode();
 		currUser = newUser;
 		observableRoutes = FXCollections.observableArrayList();
-		observableTrips = FXCollections.observableArrayList();
 		stopContainer = new HashSet<StopPoint>();
+		notifications = new ArrayList<String>();
 	}
 
 	/**
@@ -48,6 +55,42 @@ public class Profile {
 	 */
 	public ObservableList<Route> getUserRoutes() {
 		return observableRoutes;
+	}
+
+	public Boolean processNotifications() {
+		notifications.clear();
+		for (Car car : currUser.getCars()){
+			//Test Rego expiry
+			if (car.getRegoExpiry().until(LocalDate.now()).getDays() <= 7){
+				notifications.add("Rego One Week");
+			} else if (car.getRegoExpiry().until(LocalDate.now()).getDays() <= 14){
+				notifications.add("Rego Two Weeks");
+			} else if (car.getRegoExpiry().until(LocalDate.now()).getMonths() < 1){
+				notifications.add("Rego One Month");
+			}
+			//Test WOF Expiry
+			if (car.getWofExpiry().until(LocalDate.now()).getDays() <= 7){
+				notifications.add("WOF One Week");
+			} else if (car.getWofExpiry().until(LocalDate.now()).getDays() <= 14){
+				notifications.add("WOF Two Weeks");
+			} else if (car.getWofExpiry().until(LocalDate.now()).getMonths() < 1){
+				notifications.add("WOF One Month");
+			}
+		}
+		// Drivers License Expiry
+		if (currUser.getDriversLicense().getExpiryDate().until(LocalDate.now()).getDays() <= 7){
+			notifications.add("License One Week");
+		} else if (currUser.getDriversLicense().getExpiryDate().until(LocalDate.now()).getDays() <= 14){
+			notifications.add("License Two Weeks");
+		} else if (currUser.getDriversLicense().getExpiryDate().until(LocalDate.now()).getMonths() < 1){
+			notifications.add("License One Month");
+		}
+		if (notifications.isEmpty()){
+			return false;
+		}	else {
+			return true;
+		}
+
 	}
 
 	/**
@@ -97,40 +140,37 @@ public class Profile {
 	}
 
 	/**
-	 * Gets the trips.
-	 *
-	 * @return the trips
-	 */
-	public ObservableList<Trip> getTrips() {
-		return observableTrips;
-	}
-
-	/**
-	 * Adds the trip.
-	 *
-	 * @param newTrip the new trip
-	 */
-	public void addTrip(Trip newTrip) {
-		this.observableTrips.add(newTrip);
-	}
-
-	/**
-	 * Removes the trip.
-	 *
-	 * @param tripToDel the trip to del
-	 */
-	public void removeTrip(Trip tripToDel) {
-		this.observableTrips.remove(tripToDel);
-	}
-
-	/**
 	 * Reset profile.
 	 */
 	public void resetProfile() {
 		this.observableRoutes.clear();
-		this.observableTrips.clear();
 		this.currUser = null;
 		this.stopContainer.clear();
 
+	}
+
+	public Boolean login(String password){
+		Integer passwordHash = password.hashCode();
+		if (passwordHash.equals(passWord)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setPassWord(String pw) {
+		this.passWord = pw.hashCode();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getNotifications() {
+		return String.join(",", notifications);
 	}
 }

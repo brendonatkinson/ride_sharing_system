@@ -82,7 +82,7 @@ public class AvailableTripController { /** The avail trip table. */
 	private void initialize() {
 		// Initialize the person table with the two columns.
 
-		userColumn.setCellValueFactory(cellData -> cellData.getValue().getCreatingUser().getNameProperty());
+		userColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCreatingUser().getName()));
 		dayColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDayOfTrip().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH)));
 		timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStops().get(selectedStop)));
 		seatsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAvailSeats()).asObject());

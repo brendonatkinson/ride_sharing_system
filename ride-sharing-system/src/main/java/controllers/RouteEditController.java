@@ -184,8 +184,14 @@ public class RouteEditController { // NO_UCD (use default)
 			List<String> items = new ArrayList<String>(Arrays.asList(result.get().split(" ")));
 			Integer number = Integer.parseInt(items.remove(0));
 			String road =  String.join(" ", items);
-			route.add(new StopPoint(number, road));
+			StopPoint stop = new StopPoint(number, road);
+			if (stop.getDistance() < 0){
+				//Invalid, messagebox
+			} else {
+			route.add(stop);
+			}
 		}
+		stopTable.setItems(route.getStops());
 	}
 
 

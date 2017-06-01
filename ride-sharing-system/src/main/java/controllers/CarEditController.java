@@ -4,9 +4,12 @@
  */
 package controllers;
 
+import java.time.LocalDate;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import src.model.Car;
@@ -41,6 +44,19 @@ public class CarEditController { // NO_UCD (use default)
 	/** The year field. */
 	@FXML
 	private TextField yearField;
+	
+	@FXML
+	private TextField costField;
+	
+	@FXML
+	private TextField performField;
+	
+	/** The year field. */
+	@FXML
+	private DatePicker wofExpiry;
+	
+	@FXML
+	private DatePicker regoExpiry;
 
 	/** The dialog stage. */
 	private Stage dialogStage;
@@ -82,6 +98,11 @@ public class CarEditController { // NO_UCD (use default)
 		plateField.setText(car.getLicensePlate());
 		colourField.setText(car.getCarColour());
 		seatsField.setText(car.getNumSeats().toString());
+		performField.setText(car.getPerformance().toString());
+		costField.setText(car.getTripCost().toString());
+		regoExpiry.setValue(car.getRegoExpiry());
+		wofExpiry.setValue(car.getWofExpiry());
+		
 	}
 
 
@@ -107,6 +128,10 @@ public class CarEditController { // NO_UCD (use default)
 			car.setNumSeats(Integer.parseInt(seatsField.getText()));
 			car.setPlate(plateField.getText());
 			car.setYear(Integer.parseInt(yearField.getText()));
+			car.setPerformance(Integer.parseInt(performField.getText()));
+			car.setTripCost(Integer.parseInt(costField.getText()));
+			car.setWofExpiry(wofExpiry.getValue());
+			car.setRegoExpiry(regoExpiry.getValue());
 			okClicked = true;
 			dialogStage.close();
 		}
@@ -159,6 +184,29 @@ public class CarEditController { // NO_UCD (use default)
 			} catch (NumberFormatException e) {
 				errorMessage += "No valid year (must be an integer)!\n"; 
 			}
+		}
+		if (performField.getText() == null || performField.getText().length() == 0) {
+			errorMessage += "No valid performance!\n"; 
+		} else {
+			// try to parse the seats into an int.
+			try {
+				Integer.parseInt(performField.getText());
+			} catch (NumberFormatException e) {
+				errorMessage += "No valid performance (must be an integer)!\n"; 
+			}
+		}
+		if (costField.getText() == null || costField.getText().length() == 0) {
+			errorMessage += "No valid cost figure!\n"; 
+		} else {
+			// try to parse the seats into an int.
+			try {
+				Integer.parseInt(costField.getText());
+			} catch (NumberFormatException e) {
+				errorMessage += "No valid cost figure (must be an integer)!\n"; 
+			}
+		}
+		if (wofExpiry.getValue().isAfter(LocalDate.now()) || regoExpiry.getValue().isAfter(LocalDate.now())){
+			errorMessage += "Invalid WOF/Rego expiry!\n"; 
 		}
 
 		if (errorMessage.length() == 0) {

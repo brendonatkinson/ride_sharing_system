@@ -4,10 +4,6 @@
  */
 package src.model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,24 +14,40 @@ import javafx.collections.ObservableList;
 public class User {
 
 	/** The name. */
-	private StringProperty name;
+	private String name;
 
 	/** The role. */
-	private BooleanProperty role;
+	private String role;
 
 	/** The observable cars. */
 	private ObservableList<Car> observableCars = FXCollections.observableArrayList();
+	
+	private String universityEmail;
+	
+	private Integer universityID;
+	
+	private String address;
+	
+	private Integer homePhone;
+	
+	private Integer mobilePhone;
+	
+	private DriversLicense driversLicense;
+	
 
-	/**
-	 * Instantiates a new user.
-	 *
-	 * @param uname the uname
-	 * @param urole the urole
-	 */
-	public User(String uname, Boolean urole){
-		name = new SimpleStringProperty(uname);
-		role = new SimpleBooleanProperty(urole);
+	public User(String name, String role, String universityEmail, Integer universityID, String address,
+			Integer homePhone, Integer mobilePhone, DriversLicense driversLicense) {
+		this.name = name;
+		this.role = role;
+		this.universityEmail = universityEmail;
+		this.universityID = universityID;
+		this.address = address;
+		this.homePhone = homePhone;
+		this.mobilePhone = mobilePhone;
+		this.driversLicense = driversLicense;
 	}
+
+
 
 
 	/**
@@ -43,8 +55,8 @@ public class User {
 	 *
 	 * @param role the role to set
 	 */
-	public void setDriver(Boolean role) {
-		this.role.set(role);
+	public void setDriver(String role) {
+		this.role = role;
 	}
 
 	/**
@@ -52,9 +64,10 @@ public class User {
 	 *
 	 * @return the role
 	 */
-	public Boolean getRole() {
-		return this.role.get();
+	public String getRole() {
+		return this.role;
 	}
+	
 
 
 	/**
@@ -63,16 +76,7 @@ public class User {
 	 * @return the name
 	 */
 	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Gets the name property.
-	 *
-	 * @return the name property
-	 */
-	public StringProperty getNameProperty() {
-		return name;
+		return this.name;
 	}
 
 
@@ -105,13 +109,88 @@ public class User {
 	}
 
 
+	public ObservableList<Car> getObservableCars() {
+		return observableCars;
+	}
+
+
+	public void setObservableCars(ObservableList<Car> observableCars) {
+		this.observableCars = observableCars;
+	}
+
+
+	public String getUniversityEmail() {
+		return universityEmail;
+	}
+
+
+	public void setUniversityEmail(String universityEmail) {
+		this.universityEmail = universityEmail;
+	}
+
+
+	public Integer getUniversityID() {
+		return universityID;
+	}
+
+
+	public void setUniversityID(Integer universityID) {
+		this.universityID = universityID;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	public Integer getHomePhone() {
+		return homePhone;
+	}
+
+
+	public void setHomePhone(Integer homePhone) {
+		this.homePhone = homePhone;
+	}
+
+
+	public Integer getMobilePhone() {
+		return mobilePhone;
+	}
+
+
+	public void setMobilePhone(Integer mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+
+	public DriversLicense getDriversLicense() {
+		return driversLicense;
+	}
+
+
+	public void setDriversLicense(DriversLicense driversLicense) {
+		this.driversLicense = driversLicense;
+	}
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
 	/**
 	 * Sets the name.
 	 *
 	 * @param text the new name
 	 */
 	public void setName(String text) {
-		this.name.set(text);
+		this.name = text;
 
 	}
 }
